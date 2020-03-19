@@ -54,12 +54,16 @@ input::placeholder {
     color: #ffffff;
 }
 
-#svg-sim {
-    margin: 1em;
-    width: 19em;
-    height: 18em;
+#sirsim-container {
     border: 1px solid #ffffff;
     border-radius: 8px;
+    width: fit-content;
+}
+
+svg {
+    margin: 1em;
+    width: 19.5em;
+    height: 18em;
     min-height: 10em;
     min-width: 10em;
 }
