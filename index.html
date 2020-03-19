@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Two test</title>
+        <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+        <link rel="stylesheet" href="styles/default.css">
+        
+    </head>
+    <body>
+         <div id="main">
+             <h1>Disease Spread Simulation</h1>
+             <p>The following canvas simulates how a disease spread through the population.</p>
+            <div id="form-div">
+                <!-- form to eventually set the number of dots to simulate -->
+                <form name="form-sim-params" onsubmit="formOnSubmit(this)" onkeyup="formOnKeyUp(this)">
+                    <fieldset>
+                        <legend>Number of simulated inhabitants</legend>
+                        <label for="popsize">Population size</label>
+                        <input type="number" name="popsize"id="popsize" min="3" max="300" placeholder="200">
+                    </fieldset>
+                    
+                </form>
+            </div>
+            <div id="canvas-container"></div>
+         </div>        
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="scripts/form.js"></script>
+    <script src="scripts/sirsim.js"></script>
+</html>
