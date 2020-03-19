@@ -13,6 +13,11 @@ h1 {
     font-size: 4em;
 }
 
+#main-div {
+    height: 100%;
+    width: 100%;
+}
+
 form {
     margin: 1em;
     width: fit-content;
@@ -27,11 +32,12 @@ input::-webkit-inner-spin-button {
 
 fieldset {
     border-radius: 8px;
-    border-color: #ffffff;
+    border: 1px solid #ffffff;
 }
 
 legend {
     margin-left: 0.5em;
+    margin-right: 0.5em;
     font-weight: bold;
 }
 
@@ -49,6 +55,11 @@ input::placeholder {
 }
 
 #svg-sim {
-    width: 100%;
-    height: 100%;
+    margin: 1em;
+    width: 19em;
+    height: 18em;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    min-height: 10em;
+    min-width: 10em;
 }
