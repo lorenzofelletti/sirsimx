@@ -1,7 +1,7 @@
 function formOnKeyUp(form) {
     let numberOfDots = $("input[name=popsize]");
     if ( !isBlank(numberOfDots) ) { 
-        if ( numberOfDots >= 3 && numberOfDots <= 300 )
+        if ( numberOfDots.value >= 3 && numberOfDots.value <= 300 )
             playSim(numberOfDots);
         else
             playSim(200);
