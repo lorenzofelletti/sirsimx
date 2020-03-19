@@ -7,7 +7,7 @@
         
     </head>
     <body>
-         <div id="main">
+         <div id="main-div">
              <h1>Disease Spread Simulation</h1>
              <p>The following canvas simulates how a disease spread through the population.</p>
             <div id="form-div">
@@ -22,7 +22,8 @@
                 </form>
             </div>
             <div id="simulator-container">
-                <svg id="svg-sim">
+                <svg id="svg-sim" class="svg-bubbles" 
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
                 </svg>
             </div>
@@ -30,6 +31,7 @@
     </body>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="scripts/svg.js/svg.min.js"></script>
     <script src="scripts/form.js"></script>
     <script src="scripts/sirsim.js"></script>
 </html>
