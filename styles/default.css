@@ -46,4 +46,9 @@ input[type=number] {
 
 input::placeholder {
     color: #ffffff;
-  }
+}
+
+#svg-sim {
+    width: 100%;
+    height: 100%;
+}
