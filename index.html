@@ -9,10 +9,20 @@
     <body>
          <div id="main-div">
              <h1>Disease Spread Simulation</h1>
-             <p>The following canvas simulates how a disease spread through the population.<br>
-            The simulation is based on the <a href="https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model">SIR Model</a> 
-            and simulates the spread of a disease throughout a population (the dots con the canvas).
+             <p>
+                The following canvas simulates how a disease spreads through the population.<br>
+                The simulation is based on the <a href="https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model">SIR Model</a>
+                and shows how a disease spreads through a population - the dots on the canvas.
              </p>
+                In the model, the population is divided into susceptible of being infected (the yellow dots), infectious (the reds), 
+                and recovered from the disease (the greens).
+            </p>
+            <p>
+                The settable parameters are the population size - between 3 and 300, the probability of being infected and the recovery time. The disease is spread by the infectious by the collision with a susceptible.
+                Once recovered, one cannot be affected again by the disease.<br>
+                The population starts with one infectious and all the others susceptible.
+            </p>
+
             <div id="form-div">
                 <!-- form to eventually set the number of dots to simulate -->
                 <form name="form-sim-params">
