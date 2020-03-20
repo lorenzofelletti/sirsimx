@@ -1,5 +1,3 @@
-
-
 let sketch = function(p) {
   let recoveryTimeInMillis;
   let diameter = 8;
