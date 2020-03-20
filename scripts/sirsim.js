@@ -107,7 +107,8 @@ class Ball {
           
           
           //infection logic
-          if ( this.status === status.SUSCEPTIBLE && this.others[i].status === status.INFECTIOUS /*&& Math.round(Math.random())*/ ) {
+          if ( this.status === status.SUSCEPTIBLE && this.others[i].status === status.INFECTIOUS 
+                && (Math.random() <= infectionProbability) ) {
               this.status = status.INFECTIOUS;
               this.infectionsTimesArray.push({time: Date.now(), index: this.id});
           } else {

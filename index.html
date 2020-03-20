@@ -12,11 +12,15 @@
              <p>The following svg simulates how a disease spread through the population.</p>
             <div id="form-div">
                 <!-- form to eventually set the number of dots to simulate -->
-                <form name="form-sim-params" onsubmit="formOnSubmit(this)" onkeyup="formOnKeyUp(this)">
+                <form name="form-sim-params">
                     <fieldset>
                         <legend>Number of simulated inhabitants</legend>
                         <label for="popsize">Population size</label>
-                        <input type="number" name="popsize"id="popsize" min="3" max="300" placeholder="200">
+                        <input type="number" name="popsize"id="popsize" min="3" max="300" placeholder="200"><br>
+                        <label for="infectionprobability">Infection Probability</label>
+                        <input type="range" id="infectionprobability" min="0.01" max="1" step="0.01" placeholder="1"><br>
+                        <label for="recoverytimeinmillis">Recovery time (ms)</label>
+                        <input type="range" id="recoverytimeinmillis" min="1000" max="5000" step="100" placeholder="2000"><br>
                     </fieldset>
                     
                 </form>
@@ -31,8 +35,8 @@
     </body>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
-    <!--<script src="scripts/svg.js/svg.js"></script>-->
     <script src="scripts/form.js"></script>
     <script src="scripts/sirsim.js"></script>
 </html>
