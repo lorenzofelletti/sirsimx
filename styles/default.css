@@ -28,8 +28,23 @@ h1 {
 }
 
 #main-div {
+    position: relative;
     height: 100%;
     width: 100%;
+}
+
+#text-div {
+    width: 100%;
+}
+
+#sirsim-container {
+    float: left;
+    width: fit-content;
+}
+
+#formdiv {
+    float: right;
+    width: fit-content;
 }
 
 form {
@@ -69,8 +84,9 @@ input::placeholder {
 }
 
 input[type=range] {
+    margin: 5px 5px 5px 5px;
     -webkit-appearance: none;
-    width: 100%;
+    width: 10em;
     height: 5px;
     border-radius: 5px;  
     background: #ffffff;
