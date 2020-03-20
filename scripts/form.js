@@ -68,3 +68,5 @@ function inputChanged() {
     reset(arg);
     
 }
+
+$('form').submit(false);
