@@ -9,7 +9,7 @@
     <body>
          <div id="main-div">
              <h1>Disease Spread Simulation</h1>
-             <p>The following canvas simulates how a disease spread through the population.</p>
+             <p>The following svg simulates how a disease spread through the population.</p>
             <div id="form-div">
                 <!-- form to eventually set the number of dots to simulate -->
                 <form name="form-sim-params" onsubmit="formOnSubmit(this)" onkeyup="formOnKeyUp(this)">
@@ -31,7 +31,8 @@
     </body>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="scripts/svg.js/svg.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
+    <!--<script src="scripts/svg.js/svg.js"></script>-->
     <script src="scripts/form.js"></script>
     <script src="scripts/sirsim.js"></script>
 </html>
