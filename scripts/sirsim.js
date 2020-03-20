@@ -1,11 +1,19 @@
-let recoveryTimeInMillis = 2000;
+let recoveryTimeInMillis;
 let diameter = 8;
 let numBalls;
 let spring = 0.05;
 let friction = -0.9;
-let balls = [];
-let ballsInfectionTime = [];
+let infectionProbability;
+let balls;
+let ballsInfectionTime;
 let fr = 30;
+
+const defaultValues = {
+    popsize: 200,
+    recoveryTimeInMillis: 2000,
+    infectionProbability: 1
+}
+
 const status = {
     SUSCEPTIBLE: 1,
     INFECTIOUS: 2,
@@ -21,11 +29,23 @@ function setup() {
     let canvas = createCanvas(640, 480);
     canvas.parent('sirsim-container');
     frameRate(fr);
-    reset(200);
+    reset();
 }
 
-function reset(popsize) {
-    numBalls = popsize;
+function reset(args) {
+    balls = [];
+    ballsInfectionTime = [];
+    if(!args) {
+        numBalls = defaultValues.popsize;
+        recoveryTimeInMillis = defaultValues.recoveryTimeInMillis;
+        infectionProbability = defaultValues.infectionProbability;
+    } else {
+        numBalls = args.popsize ? args.popsize : defaultValues.popsize;
+        recoveryTimeInMillis = 
+            args.recoveryTimeInMillis ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
+        infectionProbability = 
+            args.infectionProbability ? args.infectionProbability : defaultValues.infectionProbability;
+    } 
     for (let i = 0; i < numBalls; i++) {
         balls[i] = new Ball(
             random(width),
