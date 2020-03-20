@@ -1,6 +1,5 @@
 body {
     font-family: 'Work Sans', sans-serif;
-    /*background-color: #0057ff;*/
     color: #ffffff;
     background: linear-gradient(-45deg, #23a6d5, #23d5ab, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
@@ -60,7 +59,6 @@ input[type=number] {
     border: 1px solid #ffffff;
     padding: 5px 5px 5px 5px;
     border-radius: 3px;
-    /*background-color: #0057ff;*/
     background-color: transparent;
     color: #ffffff;
     text-align: center;
@@ -77,9 +75,6 @@ input[type=range] {
     border-radius: 5px;  
     background: #ffffff;
     outline: none;
-    /*opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;*/
 }
   
 input[type=range]::-webkit-slider-thumb {
