@@ -76,15 +76,6 @@ input::placeholder {
     width: fit-content;
 }
 
-svg {
-    margin: 1em;
-    padding: 0em;
-    width: 19.5em;
-    height: 18em;
-    min-height: 10em;
-    min-width: 10em;
-}
-
 canvas {
     margin: 0em;
     padding: 0em;
