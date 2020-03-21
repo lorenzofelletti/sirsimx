@@ -1,5 +1,6 @@
 body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    /*font-weight: 400;*/
     color: #ffffff;
     background: linear-gradient(-45deg, #23a6d5, #23d5ab, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
@@ -19,19 +20,21 @@ body {
 }
    
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Crimson Text', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
     color: #ffffff;
    }
 
 h1 {
-    font-size: 4em;
+    font-size: 5em;
 }
 
 #main-div {
     position: relative;
     height: 100%;
     width: 100%;
-    margin-bottom: 0.5em;
+    /*margin-bottom: 0.5em;*/
+    /*border: 1em;*/
 }
 
 #text-div {
@@ -39,28 +42,41 @@ h1 {
 }
 
 #sirsim-container {
+    position: relative;
     float: left;
     width: fit-content;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+}
+
+canvas {
+    padding: 0em;
+    /*width: 19.5em;
+    height: 18em;*/
+    min-height: 10em;
+    min-width: 10em;
+    border-radius: 8px;
 }
 
 #formdiv {
+    position: relative;
     float: right;
     width: fit-content;
-}
-
-form {
-    margin: 1em;
-    width: fit-content;
+    /*margin: 1em;
+    padding: 1em;*/
+    /*position: -webkit-sticky; /* Safari */
+    /*position: sticky;*/
 }
 
 /* remove spinner/arrows */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 fieldset {
+    width: fit-content;
     border-radius: 8px;
     border: 1px solid #ffffff;
 }
@@ -109,22 +125,4 @@ input[type=range]::-webkit-slider-thumb {
 
 #recoverytimeinmillis::-webkit-slider-thumb {
     background: #00ff00;
-}
-
-  
-
-#sirsim-container {
-    border: 1px solid #ffffff;
-    border-radius: 8px;
-    width: fit-content;
-}
-
-canvas {
-    margin: 0em;
-    padding: 0em;
-    /*width: 19.5em;
-    height: 18em;*/
-    min-height: 10em;
-    min-width: 10em;
-    border-radius: 8px;
 }
