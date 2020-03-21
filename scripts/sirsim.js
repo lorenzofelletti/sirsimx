@@ -117,7 +117,7 @@ let sketch = function(p) {
           let dx = this.others[i].x - this.x;
           let dy = this.others[i].y - this.y;
           let distance = p.sqrt(dx * dx + dy * dy);
-          let minDist = 2 * diameter;
+          let minDist = diameter;
           if (distance < minDist) {
             let angle = p.atan2(dy, dx);
             let targetX = this.x + p.cos(angle) * minDist;
