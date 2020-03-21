@@ -126,3 +126,26 @@ input[type=range]::-webkit-slider-thumb {
 #recoverytimeinmillis::-webkit-slider-thumb {
     background: #00ff00;
 }
+
+button {
+    position: relative;
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #000000;
+    font-size: inherit;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    border: none;
+    width: 6em;
+    height: 2rem;
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0057ff;
+    color: #ffffff;
+    
+}
