@@ -42,11 +42,13 @@ h1 {
 }
 
 #sirsim-container {
+    box-sizing: border-box;
     position: relative;
     float: left;
     width: fit-content;
     border: 1px solid #ffffff;
     border-radius: 8px;
+    margin: 10 px;
 }
 
 canvas {
@@ -59,9 +61,11 @@ canvas {
 }
 
 #formdiv {
+    box-sizing: border-box;
     position: relative;
     float: right;
     width: fit-content;
+    margin: 10px;
     /*margin: 1em;
     padding: 1em;*/
     /*position: -webkit-sticky; /* Safari */
@@ -86,6 +90,12 @@ legend {
     margin-right: 0.5em;
     font-weight: bold;
 }
+
+/*label {
+    display: inline-block;
+    width: 20em;
+    text-align: right;
+}*/
 
 input[type=number] {
     border: 1px solid #ffffff;
@@ -125,6 +135,10 @@ input[type=range]::-webkit-slider-thumb {
 
 #recoverytimeinmillis::-webkit-slider-thumb {
     background: #00ff00;
+}
+
+#speed::-webkit-slider-thumb {
+    background: #ffff00;
 }
 
 button {
