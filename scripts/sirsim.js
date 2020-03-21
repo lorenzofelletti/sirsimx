@@ -1,4 +1,4 @@
-let sketch = function(p) {
+let sketch = function (p) {
   let recoveryTimeInMillis;
   let diameter = 10;
   let numBalls;
@@ -11,18 +11,31 @@ let sketch = function(p) {
   let playing = true;
   let canvas;
   let stopTime;
+
+  /**
+   * Defines the default values of the parameters.
+   * @property {number} defaultValues.popsize   - the population size
+   * @property {number} defaultValues.recoveryTimeInMillis   - recovery time in ms, (integer)
+   * @property {number} defaultValues.infectionProbability   - the probability of infect someone [0,1]
+   */
   const defaultValues = {
       popsize: 200,
       recoveryTimeInMillis: 2000,
       infectionProbability: 1
   }
 
+  /**
+   * Enumerates the three SIR possible status.
+   */
   const status = {
       SUSCEPTIBLE: 1,
       INFECTIOUS: 2,
       RECOVERED: 3
   }
 
+  /**
+   * Correlates the {@link status} with the relative rgb color.  
+   */
   const statusColor = {
       1: '#ffff00',
       2: '#ff0000',
@@ -96,9 +109,9 @@ let sketch = function(p) {
       });
   }
 
-  
-  
-
+  /**
+   * A single dot on the canvas. It represents a person of the population.
+   */
   class Ball {
       constructor(xin, yin, din, idin, oin, bitin, status) {
         this.x = xin;
@@ -112,6 +125,10 @@ let sketch = function(p) {
         this.status = status;
       }
     
+      /**
+       * Calculate if the ball is colliding with others and encapsulate
+       * the infection logic (if a ball's status has to switch to infectious)
+       */
       collide() {
         for (let i = 0/*this.id + 1*/; i < numBalls; i++) {
           let dx = this.others[i].x - this.x;
@@ -161,6 +178,10 @@ let sketch = function(p) {
         }
       }
 
+      /**
+       * check if a ball's infectious time is over and, if so, changes its status
+       * to recovered.
+       */
       checkForRecovered() {
           this.infectionsTimesArray.forEach(ball => {
               if( ball.time !== undefined && ( Date.now() - ball.time > recoveryTimeInMillis ) ) {
