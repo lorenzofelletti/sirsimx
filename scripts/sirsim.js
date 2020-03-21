@@ -2,8 +2,8 @@ let sketch = function(p) {
   let recoveryTimeInMillis;
   let diameter = 8;
   let numBalls;
-  let spring = 0.05;
-  let friction = -0.9;
+  let spring = 0.1;
+  let speed = 2;
   let infectionProbability;
   let balls;
   let ballsInfectionTime;
@@ -103,8 +103,8 @@ let sketch = function(p) {
       constructor(xin, yin, din, idin, oin, bitin, status) {
         this.x = xin;
         this.y = yin;
-        this.vx = p.random(-1, 1) * 1.5;
-        this.vy = p.random(-1, 1) * 1.5;
+        this.vx = p.random(-1, 1) * speed;
+        this.vy = p.random(-1, 1) * speed;
         this.diameter = din;
         this.id = idin;
         this.others = oin;
@@ -147,20 +147,16 @@ let sketch = function(p) {
         this.y += this.vy;
         if (this.x + this.diameter / 2 > p.width) {
           this.x = p.width - this.diameter / 2;
-          //this.vx *= friction;
-          this.vx *= -1;;
+          this.vx *= -1;
         } else if (this.x - this.diameter / 2 < 0) {
           this.x = this.diameter / 2;
-          //this.vx *= friction;
           this.vx *= -1;
         }
         if (this.y + this.diameter / 2 > p.height) {
           this.y = p.height - this.diameter / 2;
-          //this.vy *= friction;
           this.vy *= -1;
         } else if (this.y - this.diameter / 2 < 0) {
           this.y = this.diameter / 2;
-          //this.vy *= friction;
           this.vy *= -1;
         }
       }
