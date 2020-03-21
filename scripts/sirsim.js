@@ -1,6 +1,6 @@
 let sketch = function(p) {
   let recoveryTimeInMillis;
-  let diameter = 8;
+  let diameter = 10;
   let numBalls;
   let spring = 0.1;
   let speed = 2;
