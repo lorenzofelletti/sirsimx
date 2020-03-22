@@ -38,6 +38,15 @@ h1 {
     width: 100%;
 }
 
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
 #sirsim-container {
     width: fit-content;
     height: fit-content;
