@@ -8,7 +8,7 @@ recoverytimeinmillis.addEventListener("change", inputChanged());
 infectionprobability.addEventListener("change", inputChanged());
 restartbtn.addEventListener("click", inputChanged());
 
-function inputChanged()  {
+function inputChanged() {
   let prev_psize, prev_rectime, prev_iprob;
   return function() {
     let arg = new Object();
