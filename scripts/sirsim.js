@@ -3,7 +3,7 @@ let sketch = function (p) {
   let diameter = 10;
   let numBalls;
   let spring = 0.1;
-  let speed = 2;
+  let speed;
   let infectionProbability;
   let balls;
   let ballsInfectionTime;
@@ -21,8 +21,9 @@ let sketch = function (p) {
   const defaultValues = {
       popsize: 200,
       recoveryTimeInMillis: 2000,
-      infectionProbability: 1
-  }
+      infectionProbability: 1,
+      speed: 2
+  };
 
   /**
    * Enumerates the three SIR possible status.
@@ -31,7 +32,7 @@ let sketch = function (p) {
       SUSCEPTIBLE: 1,
       INFECTIOUS: 2,
       RECOVERED: 3
-  }
+  };
 
   /**
    * Correlates the {@link status} with the relative rgb color.  
@@ -73,12 +74,14 @@ let sketch = function (p) {
           numBalls = defaultValues.popsize;
           recoveryTimeInMillis = defaultValues.recoveryTimeInMillis;
           infectionProbability = defaultValues.infectionProbability;
+          speed = defaultValues.speed;
       } else {
           numBalls = args.popsize ? args.popsize : defaultValues.popsize;
           recoveryTimeInMillis = 
               args.recoveryTimeInMillis ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
           infectionProbability = 
               args.infectionProbability ? args.infectionProbability : defaultValues.infectionProbability;
+          speed = args.speed ? args.speed : defaultValues.speed;
       } 
       for (let i = 0; i < numBalls; i++) {
           balls[i] = new Ball(
