@@ -132,13 +132,13 @@ input:focus {
 }
 
 button {
-    background-color: #0055ff9c;
+    background-color: white; /* old: #0055ff9c */
     font-weight: bold;
-    color: #ffffff;
+    color: black;
+    border: 1px solid black;
     text-align: center;
     font-size: inherit;
     border-radius: 4px;
-    border: none;
     width: 6em;
     height: 2rem;
     transition-duration: 0.4s;
