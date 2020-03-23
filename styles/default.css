@@ -51,12 +51,11 @@ h1 {
 #sirsim-container {
     width: fit-content;
     height: fit-content;
-    border: 1px solid #ffffff;
-    border-radius: 8px;
-    margin: 10 px;
+    /*border-radius: 8px;*/
 }
 
 canvas {
+    border: 1px solid #ffffff;
     border-radius: 8px;
 }
 
