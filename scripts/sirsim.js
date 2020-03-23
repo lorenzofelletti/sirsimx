@@ -85,21 +85,13 @@ let sketch = (p) => {
       balls = [];
       ballsInfectionTime = [];
 
-      //set default values in case !args
-      numBalls = defaultValues.popsize;
-      recoveryTimeInMillis = defaultValues.recoveryTimeInMillis;
-      infectionProbability = defaultValues.infectionProbability;
-      speed = defaultValues.speed;
-
       // if there are input params, set them
-      if ( args ) {
-        numBalls = args.popsize ? args.popsize : defaultValues.popsize;
-        recoveryTimeInMillis = 
-            args.recoveryTimeInMillis ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
-        infectionProbability = 
-            args.infectionProbability ? args.infectionProbability : defaultValues.infectionProbability;
-        speed = args.speed ? args.speed : defaultValues.speed;
-      }
+      numBalls = (args && args.popsize) ? args.popsize : defaultValues.popsize;
+      recoveryTimeInMillis = 
+          (args && args.recoveryTimeInMillis) ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
+      infectionProbability = 
+          (args && args.infectionProbability) ? args.infectionProbability : defaultValues.infectionProbability;
+      speed = (args && args.speed) ? args.speed : defaultValues.speed;
 
       // create the balls
       for (let i = 0; i < numBalls; i++) {
