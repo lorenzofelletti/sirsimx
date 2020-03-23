@@ -21,15 +21,27 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
-    color: #ffffff;
-   }
+}
 
 h1 {
     font-size: 5em;
+    margin: 0.2em 0em 0.2em 0em;
+    padding: 0em;
+}
+
+#title-div {
+    box-sizing: border-box;
+    margin: 0em;
+    padding: 0em;
 }
 
 #main-div {
+    box-sizing: border-box;
     position: relative;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1em;
+    color: black;
     height: 100%;
     width: 100%;
 }
