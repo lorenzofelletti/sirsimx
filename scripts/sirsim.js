@@ -1,17 +1,44 @@
-let sketch = function (p) {
-  let recoveryTimeInMillis;
-  let diameter = 10;
-  let numBalls;
-  let spring = 0.1;
-  let speed;
-  let infectionProbability;
-  let balls;
-  let ballsInfectionTime;
-  let fr = 30;
+let sketch = (p) => {
+  //====== DRAWING PARAMS ======//
+  let canvas; // the canvas
+  let frameRate = 30; // frame rate
+  /**
+   * Correlates the {@link status} with the relative rgb color.  
+   */
+  const statusColor = {
+    1: '#ffff00',
+    2: '#ff0000',
+    3: '#00ff00'
+  }
+  
+  // PLAY-PAUSE IMPLEMENTATION VARIABLES ======//
   let playing = true;
-  let canvas;
-  let stopTime;
+  let stopTime; 
 
+  //====== SIMULATION INTERNAL VARIABLES ======//
+  let balls; // array storing the balls
+  // array storing the balls in infectious status and their
+  let ballsInfectionTime;
+
+  //====== SIMULATION NON-SETTABLE PARAMETERS ======//
+  let diameter = 10; /** single ball diameter */
+  let spring = 0.1; /** spring constant for elastic collisions */
+  
+  //====== SIMULATION SETTABLE PARAMETERS ======//
+  let numBalls; /** number of simulated balls (equal to the setted population size)  */
+  /** time for a ball to stay in infectious status before switching to recovered */
+  let recoveryTimeInMillis;
+  /** probability of infecting others when colliding with them */
+  let infectionProbability;
+  let speed; /** ball's speed */
+  /**
+   * Enumerates the three SIR possible status.
+   */
+  const status = {
+    SUSCEPTIBLE: 1,
+    INFECTIOUS: 2,
+    RECOVERED: 3
+  };
   /**
    * Defines the default values of the parameters.
    * @property {number} defaultValues.popsize   - the population size
@@ -25,28 +52,11 @@ let sketch = function (p) {
       speed: 2
   };
 
-  /**
-   * Enumerates the three SIR possible status.
-   */
-  const status = {
-      SUSCEPTIBLE: 1,
-      INFECTIOUS: 2,
-      RECOVERED: 3
-  };
-
-  /**
-   * Correlates the {@link status} with the relative rgb color.  
-   */
-  const statusColor = {
-      1: '#ffff00',
-      2: '#ff0000',
-      3: '#00ff00'
-  }
-
+  //====== SKETCH METHODS ======//
   p.setup = function() {
       canvas = p.createCanvas(640, 480);
       canvas.parent('sirsim-container');
-      canvas.mouseClicked( function() {
+      canvas.mouseClicked( () => {
         if(playing) {
           playing = false;
           stopTime = Date.now();
@@ -61,8 +71,8 @@ let sketch = function (p) {
           }) 
           p.loop();
         }
-      });
-      p.frameRate(fr);
+      } );
+      p.frameRate(frameRate);
       this.reset();
   }
 
@@ -70,19 +80,22 @@ let sketch = function (p) {
       playing = true;
       balls = [];
       ballsInfectionTime = [];
-      if(!args) {
-          numBalls = defaultValues.popsize;
-          recoveryTimeInMillis = defaultValues.recoveryTimeInMillis;
-          infectionProbability = defaultValues.infectionProbability;
-          speed = defaultValues.speed;
-      } else {
-          numBalls = args.popsize ? args.popsize : defaultValues.popsize;
-          recoveryTimeInMillis = 
-              args.recoveryTimeInMillis ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
-          infectionProbability = 
-              args.infectionProbability ? args.infectionProbability : defaultValues.infectionProbability;
-          speed = args.speed ? args.speed : defaultValues.speed;
-      } 
+
+      //set default values in case !args
+      numBalls = defaultValues.popsize;
+      recoveryTimeInMillis = defaultValues.recoveryTimeInMillis;
+      infectionProbability = defaultValues.infectionProbability;
+      speed = defaultValues.speed;
+      // if there are input params, set them
+      if ( args ) {
+        numBalls = args.popsize ? args.popsize : defaultValues.popsize;
+        recoveryTimeInMillis = 
+            args.recoveryTimeInMillis ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
+        infectionProbability = 
+            args.infectionProbability ? args.infectionProbability : defaultValues.infectionProbability;
+        speed = args.speed ? args.speed : defaultValues.speed;
+      }
+      // create the balls
       for (let i = 0; i < numBalls; i++) {
           balls[i] = new Ball(
               p.random(p.width),
@@ -94,6 +107,7 @@ let sketch = function (p) {
               status.SUSCEPTIBLE
           );
       }
+      // change the last ball status to Infectious
       balls[numBalls-1].status = status.INFECTIOUS;
       ballsInfectionTime.push({time: Date.now(), index: numBalls-1});
   }
@@ -112,6 +126,7 @@ let sketch = function (p) {
       });
   }
 
+  //====== BALL IMPLEMENTATION ======//
   /**
    * A single dot on the canvas. It represents a person of the population.
    */
@@ -151,14 +166,22 @@ let sketch = function (p) {
             
             
             //infection logic
-            if ( this.status === status.SUSCEPTIBLE && this.others[i].status === status.INFECTIOUS 
-                  && (Math.random() <= infectionProbability) ) {
-                this.status = status.INFECTIOUS;
-                this.infectionsTimesArray.push({time: Date.now(), index: this.id});
-            } else {
-                continue;
-            }
+            this.checkForStatusChange(i);
           }
+        }
+      }
+
+      /**
+       * Check if @this Ball status has to change following a collision with
+       * another ball (which index is passed as a parameter) 
+       * @param {number} otherBallIndex 
+       */
+      checkForStatusChange(otherBallIndex) {
+        if ( this.status === status.SUSCEPTIBLE 
+              && this.others[otherBallIndex].status === status.INFECTIOUS 
+              && (Math.random() <= infectionProbability) ) {
+          this.status = status.INFECTIOUS;
+          this.infectionsTimesArray.push({time: Date.now(), index: this.id});
         }
       }
     
@@ -200,6 +223,7 @@ let sketch = function (p) {
         p.circle(this.x, this.y, diameter);
       }
   }
-}
+} // sketck
 
+// variable that holds the simulation 
 var sirsim = new p5(sketch);
