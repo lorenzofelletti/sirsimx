@@ -76,6 +76,10 @@ let sketch = (p) => {
       this.reset();
   }
 
+  /**
+   * Reset the sketch and restarts it with new parameters
+   * @param {Object} args  - object containing the simulation's new parameters 
+   */
   p.reset = function(args) {
       playing = true;
       balls = [];
@@ -86,6 +90,7 @@ let sketch = (p) => {
       recoveryTimeInMillis = defaultValues.recoveryTimeInMillis;
       infectionProbability = defaultValues.infectionProbability;
       speed = defaultValues.speed;
+
       // if there are input params, set them
       if ( args ) {
         numBalls = args.popsize ? args.popsize : defaultValues.popsize;
@@ -95,6 +100,7 @@ let sketch = (p) => {
             args.infectionProbability ? args.infectionProbability : defaultValues.infectionProbability;
         speed = args.speed ? args.speed : defaultValues.speed;
       }
+
       // create the balls
       for (let i = 0; i < numBalls; i++) {
           balls[i] = new Ball(
@@ -107,6 +113,7 @@ let sketch = (p) => {
               status.SUSCEPTIBLE
           );
       }
+      
       // change the last ball status to Infectious
       balls[numBalls-1].status = status.INFECTIOUS;
       ballsInfectionTime.push({time: Date.now(), index: numBalls-1});
@@ -164,7 +171,6 @@ let sketch = (p) => {
             this.others[i].vx += ax;
             this.others[i].vy += ay;
             
-            
             //infection logic
             this.checkForStatusChange(i);
           }
@@ -205,18 +211,16 @@ let sketch = (p) => {
       }
 
       /**
-       * check if a ball's infectious time is over and, if so, changes its status
-       * to recovered.
+       * Check if a ball's infectious time is over and, if so, changes its status
+       * to recovered. Implement the infection logic
        */
       checkForRecovered() {
           this.infectionsTimesArray.forEach(ball => {
               if( ball.time !== undefined && ( Date.now() - ball.time > recoveryTimeInMillis ) ) {
                   ball.time = undefined;
                   balls[ball.index].status = status.RECOVERED;
-              } else {
-                  return;
               }
-          })
+          });
       }
     
       display() {
