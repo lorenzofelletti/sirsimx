@@ -1,3 +1,4 @@
+/* General body style */
 body {
     font-family: 'Open Sans', sans-serif;
     color: #ffffff;
@@ -17,7 +18,8 @@ body {
 		background-position: 0% 50%;
 	}
 }
-   
+
+/* headers style */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
@@ -29,6 +31,7 @@ h1 {
     padding: 0em;
 }
 
+/* Divs style */
 #title-div {
     box-sizing: border-box;
     margin: 0em;
@@ -72,21 +75,16 @@ h1 {
     height: fit-content;
 }
 
-canvas {
-    border-radius: 8px;
-}
-
 #formdiv {
     width: fit-content;
 }
 
-/* remove spinner/arrows */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+/* Canvas style */
+canvas {
+    border-radius: 8px;
 }
 
+/* Form elements style */
 fieldset {
     width: fit-content;
     border-radius: 8px;
@@ -99,6 +97,12 @@ legend {
     font-weight: bold;
 }
 
+/* General inputs style */
+input:focus {
+    outline: none;
+}
+
+/* Input ranges style */
 input[type=range] {
     margin: 5px 5px 5px 5px;
     -webkit-appearance: none;
@@ -134,10 +138,7 @@ input[type=range]::-webkit-slider-thumb {
     background: #ffff00;
 }
 
-input:focus {
-    outline: none;
-}
-
+/* Buttons style */
 button {
     background-color: white; /* old: #0055ff9c */
     font-weight: bold;
