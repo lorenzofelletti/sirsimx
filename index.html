@@ -4,7 +4,7 @@
 <head>
     <title>sirsimx</title>
     <!-- stylesheets -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:100,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/default.css">
     <link rel="stylesheet" href="styles/footer.css">
 </head>
@@ -47,9 +47,10 @@
                 </div>
 
                 <div class="form-div" id="form-div">
+                    <h2 class="form-legend">Parameters</h2>
                     <!-- form to set the simulation parameters and restart the sim -->
                     <form name="form-sim-params" class="grid-container">
-                        <label for="popsize" id="pslabel">Population size</label>
+                        <label for="popsize" id="pslabel" class="label">Population size</label>
                         <span id="psmin" class="minspan"></span>
                         <input type="range" id="popsize" min="10" max="500" step="10" value="300">
                         <span id="psmax" class="maxspan"></span><span id="psactval" class="actspan"></span>

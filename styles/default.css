@@ -27,13 +27,18 @@ body {
 /* headers style */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', sans-serif;
-    font-weight: 100;
 }
 
 h1 {
+    font-weight: 100;
     font-size: 5em;
     margin: 0.2em 0em 0.2em 0em;
     padding: 0em;
+}
+
+h2  {
+    font-size: large;
+    font-weight: 400;
 }
 
 /* Divs style */
@@ -65,7 +70,7 @@ h1 {
 #sim-and-form-container {
     flex-flow: row wrap;
     justify-content: space-evenly;
-    margin: 0 3em;
+    margin: 0;
     list-style: none;
     align-items: center;
 }
@@ -82,6 +87,15 @@ h1 {
     flex: 1 1 auto;
 }
 
+.form-legend {
+    position: relative;
+    z-index: 1;
+    width: min-content;
+    padding: 0 0.1em 0 0.1em;
+    margin: 0 0 -0.6em 0.6em;
+    background: white;
+}
+
 /* General forms style */
 form {
     border: 1px solid black;
@@ -93,9 +107,15 @@ form {
 .grid-container {
     display: grid;
     row-gap: 0.5em;
-    max-width: min-content;
-    grid-template-columns: fit-content 1fr 4fr 1fr 1fr;
+    /*max-width: fit-content;*/
+    grid-template-columns: 4fr 1fr 4fr 1fr 1fr;
     grid-template-rows: repeat(5, 1fr);
+    align-items: stretch;
+}
+
+.label {
+    max-width: fit-content;
+    padding-right: 0.5em;
 }
 
 .minspan {
@@ -107,6 +127,7 @@ form {
 }
 
 .actspan {
+    padding-left: 0.5em;
     text-align: center;
 }
 
