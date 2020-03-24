@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 /* General body style */
 body {
     font-family: 'Open Sans', sans-serif;
@@ -33,9 +37,17 @@ h1 {
 
 /* Divs style */
 #title-div {
-    box-sizing: border-box;
     margin: 0em;
     padding: 0em;
+}
+
+.flex-container {
+    display: flex;
+}
+
+#text-div {
+    width: 100%;
+    margin-bottom: 3em;
 }
 
 #content-div {
@@ -49,25 +61,12 @@ h1 {
     width: 100%;
 }
 
-.flex-container {
-    display: flex;
+#sim-and-form-container {
+    flex-flow: row wrap;
     justify-content: space-around;
-    padding: 0;
     margin: 0;
     list-style: none;
-}
-
-#main {
-    flex-flow: column wrap;
-}
-
-#text-div {
-    width: 100%;
-    margin-bottom: 3em;
-}
-
-#content-div {
-    flex-flow: row wrap;
+    align-items: center;
 }
 
 #sirsim-container {
@@ -75,18 +74,27 @@ h1 {
     height: fit-content;
 }
 
-#formdiv {
+#form-div {
     width: fit-content;
 }
 
-/* Canvas style */
-canvas {
-    border-radius: 8px;
-}
+
+/*.range-container {
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+}*/
+
+/* General forms style */
 
 /* Form elements style */
+/*.grid-container {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+}*/
+
 fieldset {
-    width: fit-content;
+    /*width: 30em;*/
     border-radius: 8px;
     border: 1px solid black;
 }
@@ -95,6 +103,7 @@ legend {
     margin-left: 0.5em;
     margin-right: 0.5em;
     font-weight: bold;
+    /*grid-column: 1/2;*/
 }
 
 /* General inputs style */
@@ -161,4 +170,9 @@ button:hover {
 
 button:focus {
     outline: none;
+}
+
+/* Canvas style */
+canvas {
+    border-radius: 8px;
 }
