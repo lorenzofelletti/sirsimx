@@ -46,7 +46,7 @@ let sketch = (p) => {
    * @property {number} defaultValues.infectionProbability   - the probability of infect someone [0,1]
    */
   const defaultValues = {
-      popsize: 200,
+      popsize: 300,
       recoveryTimeInMillis: 2000,
       infectionProbability: 1,
       speed: 2
