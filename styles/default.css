@@ -133,6 +133,10 @@ form {
 
 .formbtn-div {
     grid-column: span 5;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin-left: -1em; /* to create gap between items */
+
 }
 
 /* General inputs style */
@@ -189,6 +193,7 @@ button {
     transition-duration: 0.4s;
     text-decoration: none;
     cursor: pointer;
+    margin-left: 1em; /* gap between buttons */
 }
 
 button:hover {
