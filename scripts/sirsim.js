@@ -11,7 +11,7 @@ let sketch = (p) => {
     3: '#00ff00'
   }
   
-  // PLAY-PAUSE IMPLEMENTATION VARIABLES ======//
+  //====== PLAY-PAUSE IMPLEMENTATION VARIABLES ======//
   let playing = true;
   let stopTime; 
 
@@ -82,6 +82,7 @@ let sketch = (p) => {
    */
   p.reset = function(args) {
       playing = true;
+      p.loop();
       balls = [];
       ballsInfectionTime = [];
 
@@ -219,7 +220,7 @@ let sketch = (p) => {
         p.circle(this.x, this.y, diameter);
       }
   }
-} // sketck
+} // sketch
 
 // variable that holds the simulation 
 var sirsim = new p5(sketch);
