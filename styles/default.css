@@ -1,3 +1,9 @@
+/* General element style */
+* {
+    box-sizing: border-box;
+}
+
+/* General body style */
 body {
     font-family: 'Open Sans', sans-serif;
     color: #ffffff;
@@ -17,7 +23,8 @@ body {
 		background-position: 0% 50%;
 	}
 }
-   
+
+/* headers style */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
@@ -29,13 +36,22 @@ h1 {
     padding: 0em;
 }
 
+/* Divs style */
 #title-div {
-    box-sizing: border-box;
     margin: 0em;
     padding: 0em;
 }
 
-#main-div {
+.flex-container {
+    display: flex;
+}
+
+#text-div {
+    width: 100%;
+    margin-bottom: 3em;
+}
+
+#content-div {
     box-sizing: border-box;
     position: relative;
     background-color: white;
@@ -46,56 +62,67 @@ h1 {
     width: 100%;
 }
 
-#text-div {
-    width: 100%;
-    margin-bottom: 3em;
-}
-
-.flex-container {
-    display: flex;
+#sim-and-form-container {
     flex-flow: row wrap;
-    justify-content: space-around;
-    padding: 0;
-    margin: 0;
+    justify-content: space-evenly;
+    margin: 0 3em;
     list-style: none;
+    align-items: center;
 }
 
 #sirsim-container {
     width: fit-content;
     height: fit-content;
+    margin: 10px;
 }
 
-canvas {
-    border-radius: 8px;
+#form-div {
+    max-width: fit-content;
+    margin: 10px;
+    flex: 1 1 auto;
 }
 
-#formdiv {
-    width: fit-content;
-}
-
-/* remove spinner/arrows */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-fieldset {
-    width: fit-content;
-    border-radius: 8px;
+/* General forms style */
+form {
     border: 1px solid black;
+    border-radius: 8px;
+    padding: 1em;    
 }
 
-legend {
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-    font-weight: bold;
+/* Form elements style */
+.grid-container {
+    display: grid;
+    row-gap: 0.5em;
+    max-width: min-content;
+    grid-template-columns: fit-content 1fr 4fr 1fr 1fr;
+    grid-template-rows: repeat(5, 1fr);
 }
 
+.minspan {
+    text-align: right;
+}
+
+.maxspan {
+    text-align: left;
+}
+
+.actspan {
+    text-align: center;
+}
+
+.formbtn-div {
+    grid-column: span 5;
+}
+
+/* General inputs style */
+input:focus {
+    outline: none;
+}
+
+/* Input ranges style */
 input[type=range] {
     margin: 5px 5px 5px 5px;
     -webkit-appearance: none;
-    width: 10em;
     height: 5px;
     border-radius: 5px;  
     background: #cecece;
@@ -127,10 +154,7 @@ input[type=range]::-webkit-slider-thumb {
     background: #ffff00;
 }
 
-input:focus {
-    outline: none;
-}
-
+/* Buttons style */
 button {
     background-color: white; /* old: #0055ff9c */
     font-weight: bold;
@@ -153,4 +177,9 @@ button:hover {
 
 button:focus {
     outline: none;
+}
+
+/* Canvas style */
+canvas {
+    border-radius: 8px;
 }
