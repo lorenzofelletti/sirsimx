@@ -99,6 +99,7 @@ let sketch = (p) => {
           (args && args.infectionProbability) ? args.infectionProbability : defaultValues.infectionProbability;
       speed = (args && args.speed) ? args.speed : defaultValues.speed;
 
+      console.log(numBalls);
       // create the balls
       for (let i = 0; i < numBalls; i++) {
           balls[i] = new Ball(

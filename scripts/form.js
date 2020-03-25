@@ -18,7 +18,7 @@ function inputChanged() {
     let rectime = parseInt(recoverytimeinmillis.value);
     let iprob = parseFloat(infectionprobability.value);
     let speed = parseFloat(speedRange.value);
-    if ( psize != undefined && psize >= 3 && psize <= 300 ){
+    if ( psize != undefined && psize >= 10 && psize <= 500 ){
       arg.popsize = psize;
     }
     else {
@@ -46,5 +46,20 @@ function inputChanged() {
     }
   }
 }
+
+var resetbtn = document.getElementById('resetbtn');
+resetbtn.addEventListener("click", () => {
+  let defaultValues = {
+    popsize: 300,
+    recoveryTimeInMillis: 2000,
+    infectionProbability: 1,
+    speed: 2
+  };
+  popsize.value = defaultValues.popsize;
+  recoverytimeinmillis.value = defaultValues.recoveryTimeInMillis;
+  infectionprobability.value = defaultValues.infectionProbability;
+  speedRange.value = defaultValues.speed;
+  sirsim.reset();
+});
 
 $('form').submit(false);
