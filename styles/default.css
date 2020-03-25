@@ -3,6 +3,14 @@
     box-sizing: border-box;
 }
 
+/* For Mobile */
+@media only screen and (max-width:500px) {
+    /* For mobile phones: */
+    .main {
+      width: 100%;
+    }
+}
+
 /* General body style */
 body {
     font-family: 'Open Sans', sans-serif;
