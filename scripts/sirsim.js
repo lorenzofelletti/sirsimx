@@ -2,6 +2,11 @@ let sketch = (p) => {
   //====== DRAWING PARAMS ======//
   let canvas; // the canvas
   let frameRate = 30; // frame rate
+  // canvas size parameters
+  let mobWidth = (screen.availWidth - (8*2*2));
+  let mobHeight = Math.floor(mobWidth * (3/4));
+  let canvasSize = ( screen.availWidth > 672 ) ?
+     { width: 640, height: 480 } : { width: mobWidth, height: mobHeight };
   /**
    * Correlates the {@link status} with the relative rgb color.  
    */
@@ -54,7 +59,7 @@ let sketch = (p) => {
 
   //====== SKETCH METHODS ======//
   p.setup = function() {
-      canvas = p.createCanvas(640, 480);
+      canvas = p.createCanvas(canvasSize.width, canvasSize.height);
       canvas.parent('sirsim-container');
       canvas.mouseClicked( () => {
         if(playing) {

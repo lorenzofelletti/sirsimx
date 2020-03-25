@@ -4,7 +4,7 @@
 }
 
 /* For Mobile */
-@media only screen and (max-width:650px) {
+@media only screen and (max-width:672px) {
     /* For mobile phones: */
     .main {
       width: 100%;
