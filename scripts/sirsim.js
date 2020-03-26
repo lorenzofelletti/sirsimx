@@ -224,7 +224,14 @@ let sketch = (p) => {
       display() {
         p.circle(this.x, this.y, diameter);
       }
-  }
+
+      /**
+       * return the ball status
+       */
+      get status() {
+        return this.status;
+      }
+  } // Ball
 } // sketch
 
 // variable that holds the simulation 
