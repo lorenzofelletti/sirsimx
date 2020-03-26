@@ -217,3 +217,12 @@ button:focus {
 canvas {
     border-radius: 8px;
 }
+
+/* Link style */
+a {
+    color: #343434;
+}
+
+a:visited {
+    color: black;
+}
