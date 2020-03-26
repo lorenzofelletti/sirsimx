@@ -99,8 +99,7 @@ h2  {
    align-self: stretch;
    grid-column: span 5;
    /* margin & borders workaround to create bicolor
-    * backround. 
-    */   
+    * backround. */   
    border-radius: 8px;
    border-bottom-left-radius: 0px;
    border-bottom-right-radius: 0px;
@@ -111,7 +110,7 @@ h2  {
 
 /* General forms style */
 form {
-    border: 1px solid #cecece/* black*/;
+    border: 1px solid #cecece;
     border-radius: 8px;
     padding: 1em;    
 }
@@ -222,4 +221,13 @@ button:focus {
 /* Canvas style */
 canvas {
     border-radius: 8px;
+}
+
+/* Link style */
+a {
+    color: #343434;
+}
+
+a:visited {
+    color: black;
 }
