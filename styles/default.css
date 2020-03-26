@@ -148,7 +148,7 @@ form {
     grid-column: span 5;
     flex-flow: row wrap;
     justify-content: flex-start;
-    margin-left: -1em; /* to create gap between items */
+    margin-left: -1em; /* creates gap between items */
 
 }
 
