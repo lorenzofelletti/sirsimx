@@ -227,10 +227,10 @@ let sketch = (p) => {
 
       /**
        * return the ball status
-       */
+       *//*
       get status() {
         return this.status;
-      }
+      }*/
   } // Ball
 } // sketch
 
