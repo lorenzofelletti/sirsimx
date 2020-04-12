@@ -1,3 +1,18 @@
+let graphSketch = (p) => {
+  p.setup = () => {
+
+  }
+  
+  p.reset = () => {
+
+  }
+
+  p.draw = () => {
+    let status = sirsim.getStatusArray();
+    
+  }
+}
+
 /*let balls = new Array(500);
 let calln = 0;
 function setup() {
@@ -69,3 +84,5 @@ function drawLinesc(a, r,g,b){
   pxc = x;
   pyc = y;
 }*/
+
+var graph = new p5(graphSketch);

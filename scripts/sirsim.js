@@ -57,6 +57,14 @@ let sketch = (p) => {
       speed: 2
   };
 
+  //====== VARIABLE ACCESS METHODS ======//
+  p.getStatusArray = () => {
+    let statuses = [...balls];
+    return statuses.forEach((ball) => {
+      ball = ball.status;
+    });
+  }
+
   //====== SKETCH METHODS ======//
   p.setup = function() {
       canvas = p.createCanvas(canvasSize.width, canvasSize.height);
@@ -224,13 +232,6 @@ let sketch = (p) => {
       display() {
         p.circle(this.x, this.y, diameter);
       }
-
-      /**
-       * return the ball status
-       *//*
-      get status() {
-        return this.status;
-      }*/
   } // Ball
 } // sketch
 
