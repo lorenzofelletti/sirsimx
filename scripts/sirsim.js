@@ -58,11 +58,17 @@ let sketch = (p) => {
   };
 
   //====== VARIABLE ACCESS METHODS ======//
+  p.getStatus = () => {
+    return status;
+  }
+
   p.getStatusArray = () => {
-    let statuses = [...balls];
-    return statuses.forEach((ball) => {
-      ball = ball.status;
-    });
+    statuses = [];
+    for (let i = 0; i < balls.length; i++) {
+      statuses[i] = balls[i].status;
+    }
+    return statuses;
+    
   }
 
   //====== SKETCH METHODS ======//

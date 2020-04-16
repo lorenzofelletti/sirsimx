@@ -1,88 +1,61 @@
 let graphSketch = (p) => {
+  let canvas;
+  const MAXNUMBEROFUPDATES = 400;
+  let callNumber = 0;
+  const status = sirsim.getStatus();
+  const statusColor = {
+    SUSCEPTIBLE: {r: 255, g: 255, b: 0},
+    INFECTIOUS: {r: 255, g: 0, b: 0},
+    RECOVERED: {r: 0, g: 255, b: 0}
+  };
+  let prev_x = 0, prev_y = {SUSCEPTIBLE: 0, INFECTIOUS: 0, RECOVERED: 0};
+
   p.setup = () => {
-
+    canvas = p.createCanvas(400, 500);
+    canvas.parent('graph-container');
+    p.frameRate(6);
+    p.reset();
   }
-  
-  p.reset = () => {
 
+  p.reset = () => {
+    p.background(220);
+    callNumber = 0;
+    prev_x = 0;
+    prev_y = {SUSCEPTIBLE: 0, INFECTIOUS: 0, RECOVERED: 0};
+    p.loop();
   }
 
   p.draw = () => {
-    let status = sirsim.getStatusArray();
-    
+    ++callNumber;
+    if(callNumber == MAXNUMBEROFUPDATES)
+      noLoop();
+    p.drawLines(sirsim.getStatusArray());
   }
-}
+  
+  p.drawLines = (statusArray) => {
+    let numberOfBallsInStatus = {SUSCEPTIBLE: 0, INFECTIOUS: 0, RECOVERED: 0};
+    statusArray.forEach(element => {
+      if (element === status.SUSCEPTIBLE)
+        ++numberOfBallsInStatus.SUSCEPTIBLE;
+      else if (element === status.INFECTIOUS)
+        ++numberOfBallsInStatus.INFECTIOUS;
+      else 
+        ++numberOfBallsInStatus.RECOVERED;
+    });
 
-/*let balls = new Array(500);
-let calln = 0;
-function setup() {
-  createCanvas(400, 400);
-  background(200);
-  frameRate(30);
-  loop();
-}
-
-function draw() {
-  calln++;
-  frameRate(20);
-  let a = [];
-  let b =[];
-  let c = [];
-  for(let i = 0; i < balls.length; i++) {
-    balls[i] = Math.floor(random(1,4));
+    for(let consideredStatus in status) {
+      p.stroke(statusColor[consideredStatus].r,
+              statusColor[consideredStatus].g,
+              statusColor[consideredStatus].b,);
+      // draw line
+      let x = callNumber;
+      let y = numberOfBallsInStatus[consideredStatus];
+      p.line(prev_x, 500-prev_y[consideredStatus], x, 500-y);
+      prev_x = x;
+      prev_y[consideredStatus] = y;
+    }
   }
-  //background(220);
-  //balls.push(random(100,300));
-  balls.forEach(ball => {
-    if(ball === 1)
-      a.push(ball);
-    else if(ball===2)
-      b.push(ball);
-    else
-      c.push(ball);
-  });
-  drawLinesa(a, 255, 0, 0);
-  drawLinesb(b, 0, 255, 0);
-  drawLinesc(c, 255, 255, 0);
-  if(calln==400)
-    noLoop();
-  console.log(a.length +","+b.length+","+c.length);
+
 }
-let pxa = 0;
-let pya = 0;
-function drawLinesa(a, r,g,b){
-  stroke(r,g,b);
- // draw lines
-  let x = calln;
-  let y = a.length;
-  
-  line(pxa, pya, x, y);
-  pxa = x;
-  pya = y;
-}
-let pxb = 0;
-let pyb = 0;
-function drawLinesb(a, r,g,b){
-  stroke(r,g,b);
- // draw lines
-  let x = calln;
-  let y = a.length;
-  
-  line(pxb, pyb, x, y);
-  pxb = x;
-  pyb = y;
-}
-let pxc = 0;
-let pyc = 0;
-function drawLinesc(a, r,g,b){
-  stroke(r,g,b);
- // draw lines
-  let x = calln;
-  let y = a.length;
-  
-  line(pxc, pyc, x, y);
-  pxc = x;
-  pyc = y;
-}*/
 
 var graph = new p5(graphSketch);
