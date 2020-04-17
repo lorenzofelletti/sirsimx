@@ -1,7 +1,7 @@
 let sketch = (p) => {
   //====== DRAWING PARAMS ======//
-  let canvas; // the canvas
   let frameRate = 30; // frame rate
+  let canvas; // the canvas
   // canvas size parameters
   let mobWidth = (screen.availWidth - (8*2*2));
   let mobHeight = Math.floor(mobWidth * (3/4));
@@ -13,7 +13,7 @@ let sketch = (p) => {
   const statusColor = {
     1: '#ffff00',
     2: '#ff0000',
-    3: '#00ff00'
+    3: '#00ff00',
   }
   
   //====== PLAY-PAUSE IMPLEMENTATION VARIABLES ======//
@@ -23,7 +23,7 @@ let sketch = (p) => {
   //====== SIMULATION INTERNAL VARIABLES ======//
   let balls; // array storing the balls
   // array storing the balls in infectious status and their
-  let ballsInfectionTime;
+  let ballsInfectionTime = [];
 
   //====== SIMULATION NON-SETTABLE PARAMETERS ======//
   let diameter = 10; /** single ball diameter */
@@ -57,10 +57,43 @@ let sketch = (p) => {
       speed: 2
   };
 
+  //====== VARIABLE ACCESS METHODS ======//
+  p.getNumberOfBalls = () => {
+    return numBalls;
+  }
+
+  p.getStatus = () => {
+    return status;
+  }
+
+  p.getStatusArray = () => {
+    statuses = [];
+    for (let i = 0; i < balls.length; i++) {
+      statuses[i] = balls[i].status;
+    }
+    return statuses;
+  }
+
+  //====== STATUS MANAGEMENT METHODS ======//
+  /**
+  * Check if a ball's infectious time is over and, if so, changes its status
+  * to recovered. Implement the infection logic.
+  */
+  p.checkForRecovered = () => {
+    ballsInfectionTime.forEach(ball => {
+      if( ball.time !== undefined && ( Date.now() - ball.time > recoveryTimeInMillis ) ) {
+        ball.time = undefined;
+        balls[ball.index].status = status.RECOVERED;
+      }
+    });
+  }
+
   //====== SKETCH METHODS ======//
   p.setup = function() {
       canvas = p.createCanvas(canvasSize.width, canvasSize.height);
       canvas.parent('sirsim-container');
+      /* Changes the play status when the canvas is clicked
+       * and also send an event to stop the graph. */
       canvas.mouseClicked( () => {
         if(playing) {
           playing = false;
@@ -76,16 +109,20 @@ let sketch = (p) => {
           }) 
           p.loop();
         }
+        /* dispatch the changeGraphPlayStatusEvent, to signal
+         * the graph to stop. */
+        document.dispatchEvent(changeGraphPlayStatusEvent);
       } );
       p.frameRate(frameRate);
       this.reset();
   }
 
   /**
-   * Reset the sketch and restarts it with new parameters
+   * Resets the sketch and restart it with new parameters.
    * @param {Object} args  - object containing the simulation's new parameters 
    */
   p.reset = function(args) {
+      // reset the sketch's variables and play status
       playing = true;
       p.loop();
       balls = [];
@@ -107,7 +144,6 @@ let sketch = (p) => {
               diameter,
               i,
               balls,
-              ballsInfectionTime,
               status.SUSCEPTIBLE
           );
       }
@@ -115,17 +151,20 @@ let sketch = (p) => {
       // change the last ball status to Infectious
       balls[numBalls-1].status = status.INFECTIOUS;
       ballsInfectionTime.push({time: Date.now(), index: numBalls-1});
+
+      // reset the graph
+      document.dispatchEvent(resetGraphEvent);
   }
     
   p.draw = function() { 
       p.background(0, 87, 255); //0057ff
+      p.checkForRecovered();
       balls.forEach(ball => {
           p.push();
               p.noStroke();
               p.fill(statusColor[ball.status]);
               ball.collide();
               ball.move();
-              ball.checkForRecovered();
               ball.display();
           p.pop();
       });
@@ -136,7 +175,7 @@ let sketch = (p) => {
    * A single dot on the canvas. It represents a person of the population.
    */
   class Ball {
-      constructor(xin, yin, din, idin, oin, bitin, status) {
+      constructor(xin, yin, din, idin, oin, status) {
         this.x = xin;
         this.y = yin;
         this.vx = p.random(-1, 1) * speed;
@@ -144,7 +183,6 @@ let sketch = (p) => {
         this.diameter = din;
         this.id = idin;
         this.others = oin;
-        this.infectionsTimesArray = bitin;
         this.status = status;
       }
     
@@ -185,7 +223,7 @@ let sketch = (p) => {
               && this.others[otherBallIndex].status === status.INFECTIOUS 
               && (Math.random() <= infectionProbability) ) {
           this.status = status.INFECTIOUS;
-          this.infectionsTimesArray.push({time: Date.now(), index: this.id});
+          ballsInfectionTime.push({time: Date.now(), index: this.id});
         }
       }
     
@@ -207,32 +245,9 @@ let sketch = (p) => {
           this.vy *= -1;
         }
       }
-
-      /**
-       * Check if a ball's infectious time is over and, if so, changes its status
-       * to recovered. Implement the infection logic
-       */
-      checkForRecovered() {
-          this.infectionsTimesArray.forEach(ball => {
-              if( ball.time !== undefined && ( Date.now() - ball.time > recoveryTimeInMillis ) ) {
-                  ball.time = undefined;
-                  balls[ball.index].status = status.RECOVERED;
-              }
-          });
-      }
     
       display() {
         p.circle(this.x, this.y, diameter);
       }
-
-      /**
-       * return the ball status
-       *//*
-      get status() {
-        return this.status;
-      }*/
   } // Ball
 } // sketch
-
-// variable that holds the simulation 
-var sirsim = new p5(sketch);
