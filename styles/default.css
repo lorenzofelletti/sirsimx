@@ -223,6 +223,11 @@ canvas {
     border-radius: 8px;
 }
 
+#graph-canvas {
+    padding-left: 7em;
+    padding-right: 7em;
+}
+
 /* Link style */
 a {
     color: #343434;
