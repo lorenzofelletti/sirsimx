@@ -1,5 +1,6 @@
 let graphSketch = (p) => {
   let canvas;
+  let frameRate = 30;
   const MAXNUMBEROFUPDATES = 400;
   let callNumber = 0;
   const status = sirsim.getStatus();
@@ -13,15 +14,16 @@ let graphSketch = (p) => {
   p.setup = () => {
     canvas = p.createCanvas(400, 500);
     canvas.parent('graph-container');
-    p.frameRate(6);
+    p.frameRate(frameRate);
     p.reset();
   }
 
   p.reset = () => {
-    p.background(220);
+    p.background(255);
     callNumber = 0;
     prev_x = 0;
     prev_y = {SUSCEPTIBLE: 0, INFECTIOUS: 0, RECOVERED: 0};
+    p.strokeWeight(4);
     p.loop();
   }
 
@@ -54,6 +56,13 @@ let graphSketch = (p) => {
       prev_x = x;
       prev_y[consideredStatus] = y;
     }
+  }
+
+  p.play = (bool) => {
+    if (bool)
+      p.loop();
+    else
+      p.noLoop();
   }
 
 }

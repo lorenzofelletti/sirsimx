@@ -90,6 +90,7 @@ let sketch = (p) => {
           }) 
           p.loop();
         }
+        graph.play(playing);
       } );
       p.frameRate(frameRate);
       this.reset();
