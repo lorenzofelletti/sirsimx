@@ -75,6 +75,10 @@ let graphSketch = (p) => {
     }
   }
   
+  /**
+   * LineDrawer factory.
+   * @param {Number} numberOfBalls - number of balls in the simulation
+   */
   function createLineDrawer(numberOfBalls) {
     let totalBalls = numberOfBalls;
     let height = graphCanvasSize.height;
