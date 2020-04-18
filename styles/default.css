@@ -82,8 +82,13 @@ h2  {
     list-style: none;
     align-items: center;
 }
-
+/*
 #sirsim-container {
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+}*/
+#graph-sim-div {
     width: fit-content;
     height: fit-content;
     margin: 10px;
@@ -221,11 +226,6 @@ button:focus {
 /* Canvas style */
 canvas {
     border-radius: 8px;
-}
-
-#graph-canvas {
-    padding-left: 7em;
-    padding-right: 7em;
 }
 
 /* Link style */

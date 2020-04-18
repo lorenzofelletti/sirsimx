@@ -3,14 +3,18 @@ let graphSketch = (p) => {
   let frameRate = 6;
   // canvas parameters
   let canvas; // p5js canvas
-  let canvasSize = { width: (screen.availWidth - (8*2*2)), height: 200 };
+  let defaultHeight = 200;
+  let mobWidth = (screen.availWidth - (8*2*2));
+  let graphCanvasSize = ( screen.availWidth > 672 ) ?
+     { width: 640, height: defaultHeight } : { width: mobWidth, height: defaultHeight };
   
   //====== PLAY-PAUSE IMPLEMENTATION VARIABLES ======//
   let playing = true;
 
   //====== GRAPH INTERNAL VARIABLES ======//
-  const MAXNUMBEROFUPDATES = canvasSize.width;
-  let callNumber = 0;
+  const MAXNUMBEROFUPDATES = graphCanvasSize.width;
+  let currentXCoordinatePixel = 0;
+  let pace = 3; // x distance in pixels between two p.draw invocations
   const status = sirsim.getStatus();
   const statusColorRGB = {
     SUSCEPTIBLE: {r: 255, g: 255, b: 0},
@@ -22,7 +26,7 @@ let graphSketch = (p) => {
 
   //====== SKETCH METHODS ======//
   p.setup = () => {
-    canvas = p.createCanvas(canvasSize.width, canvasSize.height);
+    canvas = p.createCanvas(graphCanvasSize.width, graphCanvasSize.height);
     canvas.id('graph-canvas');
     canvas.parent('graph-container');
     // add the listener to the reset-graph event
@@ -31,7 +35,6 @@ let graphSketch = (p) => {
     });
     // add the listener to the change-graph-play-status event
     document.addEventListener('change-graph-play-status', () => {
-      console.log("called");
       if(playing) {
         playing = false;
         p.noLoop();
@@ -49,7 +52,7 @@ let graphSketch = (p) => {
   p.reset = () => {
     playing = true;
     p.background(255);
-    callNumber = 0;
+    currentXCoordinatePixel = 0;
     prev_x = 0;
     prev_y = {SUSCEPTIBLE: 0, INFECTIOUS: 0, RECOVERED: 0};
     lineDrawer = createLineDrawer(sirsim.getNumberOfBalls());
@@ -62,8 +65,9 @@ let graphSketch = (p) => {
   }
 
   p.draw = () => {
-    ++callNumber;
-    if(callNumber == MAXNUMBEROFUPDATES) {
+    currentXCoordinatePixel += pace;
+    if(currentXCoordinatePixel == graphCanvasSize.width) {
+      playing = false;
       p.noLoop();
     }
     else {
@@ -73,7 +77,7 @@ let graphSketch = (p) => {
   
   function createLineDrawer(numberOfBalls) {
     let totalBalls = numberOfBalls;
-    let height = canvasSize.height;
+    let height = graphCanvasSize.height;
     let ratio = height / totalBalls;
     let numberOfBallsInStatus;
 
@@ -107,13 +111,20 @@ let graphSketch = (p) => {
                   statusColorRGB[consideredStatus].g,
                   statusColorRGB[consideredStatus].b,);
           // draws line
-          let x = callNumber;
           let y = numberOfBallsInStatus[consideredStatus];
           p.line(prev_x, Math.floor(height - ratio * prev_y[consideredStatus]),
-                  x, Math.floor(height - ratio * y));
-          // updates the previous x,y values 
-          prev_x = x;
+                  currentXCoordinatePixel, Math.floor(height - ratio * y));
+          // updates the previous y value
           prev_y[consideredStatus] = y;
+        }
+        /* x updated only after the loop because all the satuses have the
+         * same coordinate througout the same call. */
+        prev_x = currentXCoordinatePixel;
+
+        // if there are no more infectious it stops the graph
+        if (numberOfBallsInStatus.INFECTIOUS === 0) {
+          playing = false;
+          p.noLoop();
         }
       }
     }
