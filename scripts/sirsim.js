@@ -45,17 +45,18 @@ let sketch = (p) => {
     INFECTIOUS: 2,
     RECOVERED: 3
   };
+
   /**
    * Defines the default values of the parameters.
-   * @property {number} defaultValues.popsize   - the population size
+   * @property {number} defaultValues.popsize   - the population size (integer)
    * @property {number} defaultValues.recoveryTimeInMillis   - recovery time in ms, (integer)
    * @property {number} defaultValues.infectionProbability   - the probability of infect someone [0,1]
    */
   const defaultValues = {
-      popsize: 300,
-      recoveryTimeInMillis: 2000,
-      infectionProbability: 1,
-      speed: 2
+    popsize: 300,
+    recoveryTimeInMillis: 2000,
+    infectionProbability: 1,
+    speed: 2
   };
 
   //====== VARIABLE ACCESS METHODS ======//
