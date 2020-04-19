@@ -27,6 +27,7 @@ let sketch = (p) => {
 
   //====== SIMULATION NON-SETTABLE PARAMETERS ======//
   let diameter = 10; /** single ball diameter */
+  let diameterSqrd = diameter**2;
   let spring = 0.1; /** spring constant for elastic collisions */
   
   //====== SIMULATION SETTABLE PARAMETERS ======//
@@ -187,19 +188,18 @@ let sketch = (p) => {
       }
     
       /**
-       * Calculate if the ball is colliding with others and encapsulate
-       * the infection logic (if a ball's status has to switch to infectious)
+       * Calculate if the ball is colliding with others and encapsulate part of
+       * the infection logic (if a ball's status has to switch to infectious).
        */
       collide() {
-        for (let i = 0/*this.id + 1*/; i < numBalls; i++) {
+        for (let i = 0; i < numBalls; i++) {
           let dx = this.others[i].x - this.x;
           let dy = this.others[i].y - this.y;
-          let distance = p.sqrt(dx * dx + dy * dy);
-          let minDist = diameter;
-          if (distance < minDist) {
+          let distanceSqrd = dx**2 + dy**2;
+          if (distanceSqrd < diameterSqrd) {
             let angle = p.atan2(dy, dx);
-            let targetX = this.x + p.cos(angle) * minDist;
-            let targetY = this.y + p.sin(angle) * minDist;
+            let targetX = this.x + p.cos(angle) * diameter;
+            let targetY = this.y + p.sin(angle) * diameter;
             let ax = (targetX - this.others[i].x) * spring;
             let ay = (targetY - this.others[i].y) * spring;
             this.vx -= ax;
