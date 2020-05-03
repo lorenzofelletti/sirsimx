@@ -15,10 +15,6 @@ let sketch = (p) => {
     2: '#ff0000',
     3: '#00ff00',
   }
-  
-  //====== PLAY-PAUSE IMPLEMENTATION VARIABLES ======//
-  let playing = true;
-  let stopTime; 
 
   //====== SIMULATION INTERNAL VARIABLES ======//
   let balls; // array storing the balls
@@ -73,7 +69,7 @@ let sketch = (p) => {
   }
 
   p.getStatusArray = () => {
-    statuses = [];
+    let statuses = [];
     for (let i = 0; i < balls.length; i++) {
       statuses[i] = balls[i].status;
     }
@@ -99,28 +95,6 @@ let sketch = (p) => {
   p.setup = function() {
     canvas = p.createCanvas(simCanvasSize.width, simCanvasSize.height);
     canvas.parent('sirsim-container');
-    /* Changes the play status when the canvas is clicked
-     * and also send an event to stop the graph. */
-    canvas.mouseClicked(() => {
-      if(playing) {
-        playing = false;
-        stopTime = Date.now();
-        p.noLoop();
-        // stop plotting the graph
-        graph && graph.noLoop();
-      } else {
-        playing = true;
-        let delta = Date.now() - stopTime;
-        ballsInfectionTime.forEach(ball => {
-          if ( ball.time ) {
-            ball.time += delta;
-          }
-        }) 
-        p.loop();
-        // resume graph plotting
-        graph && graph.loop();
-      }
-    });
     p.frameRate(frameRate);
     this.reset();
   }
@@ -130,6 +104,33 @@ let sketch = (p) => {
    * @param {Object} args  - object containing the simulation's new parameters 
    */
   p.reset = function(args) {
+    /* Changes the play status when the canvas is clicked
+     * and also send an event to stop the graph. */
+    canvas.mouseClicked(function() {
+      let playing = true;
+      let stopTime;
+      return () => {
+        if(playing) {
+          playing = false;
+          stopTime = Date.now();
+          p.noLoop();
+          // stop plotting the graph
+          graph && graph.noLoop();
+        } else {
+          playing = true;
+          let delta = Date.now() - stopTime;
+          ballsInfectionTime.forEach(ball => {
+            if ( ball.time ) {
+              ball.time += delta;
+            }
+          }) 
+          p.loop();
+          // resume graph plotting
+          graph && graph.loop();
+        }
+      }
+    }());
+
     // reset the sketch's variables and play status
     playing = true;
     p.loop();
