@@ -1,3 +1,5 @@
+// MUST BE IMPORTED AFTER sirsim.js
+
 let graphSketch = (p) => {
   //====== DRAWING PARAMS ======//
   let frameRate = 6;
@@ -7,9 +9,6 @@ let graphSketch = (p) => {
   let mobWidth = (screen.availWidth - (8*2*2));
   let graphCanvasSize = ( screen.availWidth > 672 ) ?
      { width: 640, height: defaultHeight } : { width: mobWidth, height: defaultHeight };
-  
-  //====== PLAY-PAUSE IMPLEMENTATION VARIABLES ======//
-  let playing = true;
 
   //====== GRAPH INTERNAL VARIABLES ======//
   const MAXNUMBEROFUPDATES = graphCanvasSize.width;
@@ -30,11 +29,11 @@ let graphSketch = (p) => {
     canvas.id('graph-canvas');
     canvas.parent('graph-container');
     // add the listener to the reset-graph event
-    document.addEventListener('reset-graph', () => {
+    /*document.addEventListener('reset-graph', () => {
       p.reset();
-    });
+    });*/
     // add the listener to the change-graph-play-status event
-    document.addEventListener('change-graph-play-status', () => {
+    /*document.addEventListener('change-graph-play-status', () => {
       if(playing) {
         playing = false;
         p.noLoop();
@@ -42,7 +41,7 @@ let graphSketch = (p) => {
         playing = true;
         p.loop();
       }
-    });
+    });*/
 
     p.frameRate(frameRate);
     p.reset();

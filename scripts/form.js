@@ -20,8 +20,20 @@ resetbtn.addEventListener("click", changeSimParams(true));
  * are passed it resets to the default simulation values. */ 
 function changeSimParams(resetToDefault) {
   if(resetToDefault ) {
+    function updateRangeValues() {
+      $('#psactval').html(document.getElementById('popsize').value);
+      $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
+      $('#ipactval').html(document.getElementById('infectionprobability').value);
+      $('#spactval').html(document.getElementById('speed').value);
+    }
     return () => {
+      const defaultValues = sirsim.getDefaultValues();
+      popsize.value = defaultValues.popsize;
+      recoverytimeinmillis.value = defaultValues.recoveryTimeInMillis;
+      infectionprobability.value = defaultValues.infectionProbability;
+      speedRange.value = defaultValues.speed;
       sirsim.reset();
+      updateRangeValues();
     }
   }
 
@@ -71,18 +83,18 @@ $( function() {
   $('#ipactval').html ( document.getElementById('infectionprobability').value );
   $('#spactval').html ( document.getElementById('speed').value );
 
-  popsize.addEventListener( 'change', ( () => {
-    $('#psactval').html ( document.getElementById('popsize').value );
-  } ) );
-  recoverytimeinmillis.addEventListener( 'change', ( () => {
-    $('#rtactval').html ( document.getElementById('recoverytimeinmillis').value );
-  } ) );
-  infectionprobability.addEventListener( 'change', ( () => {
-    $('#ipactval').html ( document.getElementById('infectionprobability').value );
-  } ) );
-  speedRange.addEventListener( 'change', ( () => {
-    $('#spactval').html ( document.getElementById('speed').value );
-  } ) );
+  popsize.addEventListener( 'change', (() => {
+    $('#psactval').html(document.getElementById('popsize').value);
+  }));
+  recoverytimeinmillis.addEventListener( 'change', (() => {
+    $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
+  }));
+  infectionprobability.addEventListener( 'change', (() => {
+    $('#ipactval').html(document.getElementById('infectionprobability').value);
+  }));
+  speedRange.addEventListener( 'change', (() => {
+    $('#spactval').html(document.getElementById('speed').value);
+  }));
 });
 
 // disables form submission, to prevent unwanted page updates

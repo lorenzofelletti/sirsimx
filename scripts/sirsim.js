@@ -64,6 +64,10 @@ let sketch = (p) => {
     return numBalls;
   }
 
+  p.getDefaultValues = () => {
+    return defaultValues;
+  }
+
   p.getStatus = () => {
     return status;
   }
@@ -97,11 +101,13 @@ let sketch = (p) => {
     canvas.parent('sirsim-container');
     /* Changes the play status when the canvas is clicked
      * and also send an event to stop the graph. */
-    canvas.mouseClicked( () => {
+    canvas.mouseClicked(() => {
       if(playing) {
         playing = false;
         stopTime = Date.now();
         p.noLoop();
+        // stop plotting the graph
+        graph && graph.noLoop();
       } else {
         playing = true;
         let delta = Date.now() - stopTime;
@@ -111,11 +117,10 @@ let sketch = (p) => {
           }
         }) 
         p.loop();
+        // resume graph plotting
+        graph && graph.loop();
       }
-      /* dispatch the changeGraphPlayStatusEvent, to signal
-        * the graph to stop. */
-      document.dispatchEvent(changeGraphPlayStatusEvent);
-    } );
+    });
     p.frameRate(frameRate);
     this.reset();
   }
@@ -156,7 +161,7 @@ let sketch = (p) => {
     ballsInfectionTime.push({time: Date.now(), index: numBalls-1});
 
     // reset the graph
-    document.dispatchEvent(resetGraphEvent);
+    graph && graph.reset();
   }
     
   p.draw = function() { 
