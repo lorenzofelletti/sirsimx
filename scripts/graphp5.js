@@ -28,21 +28,6 @@ let graphSketch = (p) => {
     canvas = p.createCanvas(graphCanvasSize.width, graphCanvasSize.height);
     canvas.id('graph-canvas');
     canvas.parent('graph-container');
-    // add the listener to the reset-graph event
-    /*document.addEventListener('reset-graph', () => {
-      p.reset();
-    });*/
-    // add the listener to the change-graph-play-status event
-    /*document.addEventListener('change-graph-play-status', () => {
-      if(playing) {
-        playing = false;
-        p.noLoop();
-      } else {
-        playing = true;
-        p.loop();
-      }
-    });*/
-
     p.frameRate(frameRate);
     p.reset();
   }
