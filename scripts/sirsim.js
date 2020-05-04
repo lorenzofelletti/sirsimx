@@ -115,7 +115,7 @@ let sketch = (p) => {
           stopTime = Date.now();
           p.noLoop();
           // stop plotting the graph
-          graph && graph.noLoop();
+          graph && graph._setupDone && graph.noLoop();
         } else {
           playing = true;
           let delta = Date.now() - stopTime;
@@ -126,7 +126,7 @@ let sketch = (p) => {
           }) 
           p.loop();
           // resume graph plotting
-          graph && graph.loop();
+          graph && graph._setupDone && graph.loop();
         }
       }
     }());
@@ -162,7 +162,7 @@ let sketch = (p) => {
     ballsInfectionTime.push({time: Date.now(), index: numBalls-1});
 
     // reset the graph
-    graph && graph.reset();
+    graph && graph._setupDone && graph.reset();
   }
     
   p.draw = function() { 
