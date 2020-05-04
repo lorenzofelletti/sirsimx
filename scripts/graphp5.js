@@ -42,11 +42,7 @@ let graphSketch = (p) => {
     p.strokeWeight(4);
     p.loop();
   }
-
-  p.getLD = () => {
-    return lineDrawer;
-  }
-
+  
   p.draw = () => {
     currentXCoordinatePixel += pace;
     if(currentXCoordinatePixel == graphCanvasSize.width) {
