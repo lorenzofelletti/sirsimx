@@ -34,7 +34,6 @@ let graphSketch = (p) => {
 
   /** Reset and restart the graph. */
   p.reset = () => {
-    playing = true;
     p.background(255);
     currentXCoordinatePixel = 0;
     prev_x = 0;
@@ -51,7 +50,6 @@ let graphSketch = (p) => {
   p.draw = () => {
     currentXCoordinatePixel += pace;
     if(currentXCoordinatePixel == graphCanvasSize.width) {
-      playing = false;
       p.noLoop();
     }
     else {
@@ -111,7 +109,6 @@ let graphSketch = (p) => {
 
         // if there are no more infectious it stops the graph
         if (numberOfBallsInStatus.INFECTIOUS === 0) {
-          playing = false;
           p.noLoop();
         }
       }
