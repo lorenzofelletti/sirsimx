@@ -1,5 +1,6 @@
 # sirsimx
-This project reproduces the [SIR Model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model "SIR Model Wikipedia") for spread of diseases using HTML canvas and the JavaScript [p5.js](https://p5js.org/) library. Some scripts were minified with Google's [Closure Compiler](https://developers.google.com/closure/compiler).
+This project reproduces the [SIR Model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model "SIR Model Wikipedia") for spread of diseases using HTML canvas and the JavaScript [p5.js](https://p5js.org/) library. Some scripts were minified with Google's [Closure Compiler](https://developers.google.com/closure/compiler).<br>
+In [this](https://medium.com/@lorenzofelletti/javascript-pandemic-simulator-3ab8099c6fc4) Medium article I briefly write about why and how I made this project.
 
 ## Simple SIR Model Simulation
 A box simulates the space where the individuals - represesented by the balls - of a population move. The individuals, according to the model, can be in each moment in one of three possible status:
