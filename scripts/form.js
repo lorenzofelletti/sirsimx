@@ -17,9 +17,9 @@ var resetbtn = document.getElementById('resetbtn');
 resetbtn.addEventListener("click", changeSimParams(true));
 
 /** Resets the simulation with new parameters. If arguments
- * are passed it resets to the default simulation values. */ 
+ * are passed it resets to the default simulation values. */
 function changeSimParams(resetToDefault) {
-  if(resetToDefault ) {
+  if (resetToDefault) {
     function updateRangeValues() {
       $('#psactval').html(document.getElementById('popsize').value);
       $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
@@ -38,7 +38,7 @@ function changeSimParams(resetToDefault) {
   }
 
   let prev_psize, prev_rectime, prev_iprob, prev_speed;
-  return function() {
+  return function () {
     if (resetToDefault) {
       sirsim.reset();
     } else {
@@ -47,20 +47,20 @@ function changeSimParams(resetToDefault) {
       let rectime = parseInt(recoverytimeinmillis.value);
       let iprob = parseFloat(infectionprobability.value);
       let speed = parseFloat(speedRange.value);
-      if ( psize >= 10 && psize <= 500 ) {
+      if (psize >= 10 && psize <= 500) {
         arg.popsize = psize;
       }
-      if ( rectime ) {
+      if (rectime) {
         arg.recoveryTimeInMillis = rectime;
       }
-      if ( iprob ) {
+      if (iprob) {
         arg.infectionProbability = iprob;
       }
-      if ( speed ) {
+      if (speed) {
         arg.speed = speed;
       }
-      if ( prev_psize !== psize || prev_iprob !== iprob || 
-          prev_rectime !== rectime || prev_speed !== speed ) {
+      if (prev_psize !== psize || prev_iprob !== iprob ||
+        prev_rectime !== rectime || prev_speed !== speed) {
         sirsim.reset(arg);
       }
     }
@@ -68,31 +68,31 @@ function changeSimParams(resetToDefault) {
 }
 
 // configure the form ranges labels
-$( function() {
-  $("#psmin").html( document.getElementById('popsize').getAttribute('min') );
-  $("#psmax").html( document.getElementById('popsize').getAttribute('max') );
-  $("#ipmin").html( document.getElementById('infectionprobability').getAttribute('min') );
-  $("#ipmax").html( document.getElementById('infectionprobability').getAttribute('max') );
-  $("#rtmin").html( document.getElementById('recoverytimeinmillis').getAttribute('min') );
-  $("#rtmax").html( document.getElementById('recoverytimeinmillis').getAttribute('max') ); 
-  $("#spmin").html( document.getElementById('speed').getAttribute('min') );
-  $("#spmax").html( document.getElementById('speed').getAttribute('max') );
+$(function () {
+  $("#psmin").html(document.getElementById('popsize').getAttribute('min'));
+  $("#psmax").html(document.getElementById('popsize').getAttribute('max'));
+  $("#ipmin").html(document.getElementById('infectionprobability').getAttribute('min'));
+  $("#ipmax").html(document.getElementById('infectionprobability').getAttribute('max'));
+  $("#rtmin").html(document.getElementById('recoverytimeinmillis').getAttribute('min'));
+  $("#rtmax").html(document.getElementById('recoverytimeinmillis').getAttribute('max'));
+  $("#spmin").html(document.getElementById('speed').getAttribute('min'));
+  $("#spmax").html(document.getElementById('speed').getAttribute('max'));
 
-  $('#psactval').html ( document.getElementById('popsize').value );
-  $('#rtactval').html ( document.getElementById('recoverytimeinmillis').value );
-  $('#ipactval').html ( document.getElementById('infectionprobability').value );
-  $('#spactval').html ( document.getElementById('speed').value );
+  $('#psactval').html(document.getElementById('popsize').value);
+  $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
+  $('#ipactval').html(document.getElementById('infectionprobability').value);
+  $('#spactval').html(document.getElementById('speed').value);
 
-  popsize.addEventListener( 'change', (() => {
+  popsize.addEventListener('change', (() => {
     $('#psactval').html(document.getElementById('popsize').value);
   }));
-  recoverytimeinmillis.addEventListener( 'change', (() => {
+  recoverytimeinmillis.addEventListener('change', (() => {
     $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
   }));
-  infectionprobability.addEventListener( 'change', (() => {
+  infectionprobability.addEventListener('change', (() => {
     $('#ipactval').html(document.getElementById('infectionprobability').value);
   }));
-  speedRange.addEventListener( 'change', (() => {
+  speedRange.addEventListener('change', (() => {
     $('#spactval').html(document.getElementById('speed').value);
   }));
 });

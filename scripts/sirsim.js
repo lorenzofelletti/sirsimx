@@ -3,10 +3,10 @@ let sketch = (p) => {
   let frameRate = 30; // frame rate
   let canvas; // the canvas
   // canvas size parameters
-  let mobWidth = (screen.availWidth - (8*2*2));
-  let mobHeight = Math.floor(mobWidth * (3/4));
-  let simCanvasSize = ( screen.availWidth > 672 ) ?
-     { width: 640, height: 480 } : { width: mobWidth, height: mobHeight };
+  let mobWidth = (screen.availWidth - (8 * 2 * 2));
+  let mobHeight = Math.floor(mobWidth * (3 / 4));
+  let simCanvasSize = (screen.availWidth > 672) ?
+    { width: 640, height: 480 } : { width: mobWidth, height: mobHeight };
   /**
    * Correlates the {@link status} with the relative rgb color.  
    */
@@ -23,9 +23,9 @@ let sketch = (p) => {
 
   //====== SIMULATION NON-SETTABLE PARAMETERS ======//
   let diameter = 10; /** single ball diameter */
-  let diameterSqrd = diameter**2;
+  let diameterSqrd = diameter ** 2;
   let spring = 0.1; /** spring constant for elastic collisions */
-  
+
   //====== SIMULATION SETTABLE PARAMETERS ======//
   let numBalls; /** number of simulated balls (equal to the setted population size)  */
   /** time for a ball to stay in infectious status before switching to recovered */
@@ -83,8 +83,8 @@ let sketch = (p) => {
   */
   p.checkForRecovered = () => {
     ballsInfectionTime.forEach(ball => {
-      if (ball.time !== undefined && 
-          (Date.now() - ball.time > recoveryTimeInMillis)) {
+      if (ball.time !== undefined &&
+        (Date.now() - ball.time > recoveryTimeInMillis)) {
         ball.time = undefined;
         balls[ball.index].status = status.RECOVERED;
       }
@@ -92,7 +92,7 @@ let sketch = (p) => {
   }
 
   //====== SKETCH METHODS ======//
-  p.setup = function() {
+  p.setup = function () {
     canvas = p.createCanvas(simCanvasSize.width, simCanvasSize.height);
     canvas.parent('sirsim-container');
     p.frameRate(frameRate);
@@ -103,14 +103,14 @@ let sketch = (p) => {
    * Resets the sketch and restart it with new parameters.
    * @param {Object} args  - object containing the simulation's new parameters 
    */
-  p.reset = function(args) {
+  p.reset = function (args) {
     /* Changes the play status when the canvas is clicked
      * and also send an event to stop the graph. */
-    canvas.mouseClicked(function() {
+    canvas.mouseClicked(function () {
       let playing = true;
       let stopTime;
       return () => {
-        if(playing) {
+        if (playing) {
           playing = false;
           stopTime = Date.now();
           p.noLoop();
@@ -120,10 +120,10 @@ let sketch = (p) => {
           playing = true;
           let delta = Date.now() - stopTime;
           ballsInfectionTime.forEach(ball => {
-            if ( ball.time ) {
+            if (ball.time) {
               ball.time += delta;
             }
-          }) 
+          })
           p.loop();
           // resume graph plotting
           graph && graph._setupDone && graph.loop();
@@ -139,10 +139,10 @@ let sketch = (p) => {
 
     // if there are input params, set them
     numBalls = (args && args.popsize) ? args.popsize : defaultValues.popsize;
-    recoveryTimeInMillis = 
-        (args && args.recoveryTimeInMillis) ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
-    infectionProbability = 
-        (args && args.infectionProbability) ? args.infectionProbability : defaultValues.infectionProbability;
+    recoveryTimeInMillis =
+      (args && args.recoveryTimeInMillis) ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
+    infectionProbability =
+      (args && args.infectionProbability) ? args.infectionProbability : defaultValues.infectionProbability;
     speed = (args && args.speed) ? args.speed : defaultValues.speed;
 
     // create the balls
@@ -156,25 +156,25 @@ let sketch = (p) => {
         status.SUSCEPTIBLE
       );
     }
-    
+
     // change the last ball status to Infectious
-    balls[numBalls-1].status = status.INFECTIOUS;
-    ballsInfectionTime.push({time: Date.now(), index: numBalls-1});
+    balls[numBalls - 1].status = status.INFECTIOUS;
+    ballsInfectionTime.push({ time: Date.now(), index: numBalls - 1 });
 
     // reset the graph
     graph && graph._setupDone && graph.reset();
   }
-    
-  p.draw = function() { 
+
+  p.draw = function () {
     p.background(0, 87, 255); //0057ff
     p.checkForRecovered();
     balls.forEach(ball => {
       p.push();
-        p.noStroke();
-        p.fill(statusColor[ball.status]);
-        ball.collide();
-        ball.move();
-        ball.display();
+      p.noStroke();
+      p.fill(statusColor[ball.status]);
+      ball.collide();
+      ball.move();
+      ball.display();
       p.pop();
     });
   }
@@ -194,7 +194,7 @@ let sketch = (p) => {
       this.others = oin;
       this.status = status;
     }
-  
+
     /**
      * Calculate if the ball is colliding with others and encapsulate part of
      * the infection logic (if a ball's status has to switch to infectious).
@@ -203,7 +203,7 @@ let sketch = (p) => {
       for (let i = 0; i < numBalls; i++) {
         let dx = this.others[i].x - this.x;
         let dy = this.others[i].y - this.y;
-        let distanceSqrd = dx**2 + dy**2;
+        let distanceSqrd = dx ** 2 + dy ** 2;
 
         if (distanceSqrd < diameterSqrd) {
           let angle = p.atan2(dy, dx);
@@ -215,7 +215,7 @@ let sketch = (p) => {
           this.vy -= ay;
           this.others[i].vx += ax;
           this.others[i].vy += ay;
-          
+
           //infection logic
           this.checkForStatusChange(i);
         }
@@ -228,14 +228,14 @@ let sketch = (p) => {
      * @param {number} otherBallIndex 
      */
     checkForStatusChange(otherBallIndex) {
-      if ( this.status === status.SUSCEPTIBLE 
-            && this.others[otherBallIndex].status === status.INFECTIOUS 
-            && (Math.random() <= infectionProbability) ) {
+      if (this.status === status.SUSCEPTIBLE
+        && this.others[otherBallIndex].status === status.INFECTIOUS
+        && (Math.random() <= infectionProbability)) {
         this.status = status.INFECTIOUS;
-        ballsInfectionTime.push({time: Date.now(), index: this.id});
+        ballsInfectionTime.push({ time: Date.now(), index: this.id });
       }
     }
-  
+
     move() {
       this.x += this.vx;
       this.y += this.vy;
@@ -254,7 +254,7 @@ let sketch = (p) => {
         this.vy *= -1;
       }
     }
-  
+
     display() {
       p.circle(this.x, this.y, diameter);
     }
