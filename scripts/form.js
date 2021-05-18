@@ -11,9 +11,10 @@ var speedRange = document.getElementById('speed');
 speedRange.addEventListener("change", changeSimParams());
 
 var vaccinationRange = document.getElementById('vaccination');
-vaccinationRange.addEventListener("change", changeSimParams())
+vaccinationRange.addEventListener("change", changeSimParams());
+
 var effectivenessRange = document.getElementById('effectiveness');
-effectivenessRange.addEventListener("change", changeSimParams())
+effectivenessRange.addEventListener("change", changeSimParams());
 
 var restartbtn = document.getElementById('restartbtn');
 restartbtn.addEventListener("click", changeSimParams());
@@ -56,6 +57,9 @@ function changeSimParams(resetToDefault) {
       let rectime = parseInt(recoverytimeinmillis.value);
       let iprob = parseFloat(infectionprobability.value);
       let speed = parseFloat(speedRange.value);
+      let vaccination = parseFloat(vaccinationRange.value) / 100.0;
+      let effectiveness = parseFloat(effectivenessRange.value) / 100.0;
+
       if (psize >= 10 && psize <= 500) {
         arg.popsize = psize;
       }
@@ -68,6 +72,13 @@ function changeSimParams(resetToDefault) {
       if (speed) {
         arg.speed = speed;
       }
+      if (typeof vaccination !== "undefined") {
+        arg.vaccination = vaccination;
+      }
+      if (typeof effectiveness !== "undefined") {
+        arg.effectiveness = effectiveness;
+      }
+
       if (prev_psize !== psize || prev_iprob !== iprob ||
         prev_rectime !== rectime || prev_speed !== speed) {
         sirsim.reset(arg);

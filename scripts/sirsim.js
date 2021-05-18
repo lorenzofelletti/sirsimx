@@ -163,10 +163,9 @@ let sketch = (p) => {
     recoveryTimeInMillis = args?.recoveryTimeInMillis ?? defaultValues.recoveryTimeInMillis;
     infectionProbability = args?.infectionProbability ?? defaultValues.infectionProbability;
     speed = args?.speed ?? defaultValues.speed;
-    vaccinationRate = (args?.vaccination ?? defaultValues.vaccination) / 100.0;
-    vaccinationEffectiveness = (args?.effectiveness ?? defaultValues.effectiveness) / 100.0
-
-
+    vaccinationRate = args?.vaccination ?? defaultValues.vaccination;
+    vaccinationEffectiveness = args?.effectiveness ?? defaultValues.effectiveness;
+    console.log({ vaccinationEffectiveness })
 
     // create the balls
     for (let i = 0; i < numBalls; i++) {
