@@ -1,3 +1,24 @@
+// Use system random provider instead of slow browser random
+const randomDataArraySize = 256
+const divisor = parseFloat((2 ** 16 - 1))
+const randomData = new Uint16Array(randomDataArraySize)
+let arrayIndex = randomDataArraySize
+
+const fastRandom = window.crypto ? () => {
+  let nextArrayIndex = arrayIndex
+
+  if (nextArrayIndex === randomDataArraySize) {
+    crypto.getRandomValues(randomData)
+    nextArrayIndex = 0
+  } else {
+    nextArrayIndex = nextArrayIndex + 1
+  }
+
+  return randomData[nextArrayIndex] / divisor
+} : Math.random
+
+
+
 let sketch = (p) => {
   //====== DRAWING PARAMS ======//
   let frameRate = 30; // frame rate
@@ -168,7 +189,7 @@ let sketch = (p) => {
 
     // create the balls
     for (let i = 0; i < numBalls; i++) {
-      const isVaccinated = Math.random() < vaccinationRate
+      const isVaccinated = fastRandom() < vaccinationRate
       numVaccinated += isVaccinated ? 1 : 0
 
       balls[i] = new Ball(
@@ -255,12 +276,12 @@ let sketch = (p) => {
     checkForStatusChange(otherBallIndex) {
       const nonVaccinatedInfection = this.status === status.SUSCEPTIBLE
         && this.others[otherBallIndex].status === status.INFECTIOUS
-        && (Math.random() <= infectionProbability)
+        && (fastRandom() <= infectionProbability)
 
       const vaccinatedInfection = this.status === status.VACCINATED
         && this.others[otherBallIndex].status === status.INFECTIOUS
-        && (Math.random() <= infectionProbability)
-        && (Math.random() > vaccinationEffectiveness)
+        && (fastRandom() <= infectionProbability)
+        && (fastRandom() > vaccinationEffectiveness)
 
       if (nonVaccinatedInfection || vaccinatedInfection) {
         this.lastStatus = this.status
