@@ -26,7 +26,7 @@ let graphSketch = (p) => {
     p.background(255);
     currentXCoordinatePixel = 0;
     prev_x = 0;
-    prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0 }; // PREV was: SUSCEPTIBLE: 0
+    prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0, VACCINATED: sirsim.getNumberVaccinated()}; // PREV was: SUSCEPTIBLE: 0
     lineDrawer = createLineDrawer(sirsim.getNumberOfBalls());
     p.strokeWeight(4);
     p.loop();
@@ -48,9 +48,10 @@ let graphSketch = (p) => {
     const statusColorRGB = {
       SUSCEPTIBLE: { r: 255, g: 255, b: 0 },
       INFECTIOUS: { r: 255, g: 0, b: 0 },
-      RECOVERED: { r: 0, g: 255, b: 0 }
+      RECOVERED: { r: 0, g: 255, b: 0 },
+      VACCINATED: { r: 128, g: 128, b: 255 }
     };
-    let prev_x = 0, prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0 }; // PREV was: SUSCEPTIBLE: 0
+    let prev_x = 0, prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls() - sirsim.getNumberVaccinated(), INFECTIOUS: 0, RECOVERED: 0, VACCINATED: sirsim.getNumberVaccinated() }; // PREV was: SUSCEPTIBLE: 0
 
     let totalBalls = numberOfBalls;
     let height = graphCanvasSize.height;
@@ -65,23 +66,23 @@ let graphSketch = (p) => {
     lineDrawer.drawLines = (statusArray) => {
       // reset numberOfBallsInStatus
       numberOfBallsInStatus =
-        { SUSCEPTIBLE: numberOfBalls, INFECTIOUS: 0, RECOVERED: 0 }; // PREV was: SUSCEPTIBLE: 0
+        { SUSCEPTIBLE: numberOfBalls, INFECTIOUS: 0, RECOVERED: 0, VACCINATED: 0 }; // PREV was: SUSCEPTIBLE: 0
       // calculate the new numberOfBallsInStatus
       statusArray.forEach(element => {
         switch (element) {
-          /*case status.SUSCEPTIBLE:
-            //++numberOfBallsInStatus.SUSCEPTIBLE;
-            break;*/
+          case status.VACCINATED:
+            ++numberOfBallsInStatus.VACCINATED;
+            --numberOfBallsInStatus.SUSCEPTIBLE; // PREV:
+            break;
           case status.INFECTIOUS:
             ++numberOfBallsInStatus.INFECTIOUS;
-            --numberOfBallsInStatus.SUSCEPTIBLE; // PREV: 
+            --numberOfBallsInStatus.SUSCEPTIBLE; // PREV:
             break;
           case status.RECOVERED:
             ++numberOfBallsInStatus.RECOVERED;
-            --numberOfBallsInStatus.SUSCEPTIBLE; // PREV: 
+            --numberOfBallsInStatus.SUSCEPTIBLE; // PREV:
             break;
           default:
-            //--numberOfBallsInStatus.SUSCEPTIBLE; // PREV: 
             break;
         }
       });

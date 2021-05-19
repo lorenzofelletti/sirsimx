@@ -10,6 +10,12 @@ infectionprobability.addEventListener("change", changeSimParams());
 var speedRange = document.getElementById('speed');
 speedRange.addEventListener("change", changeSimParams());
 
+var vaccinationRange = document.getElementById('vaccination');
+vaccinationRange.addEventListener("change", changeSimParams());
+
+var effectivenessRange = document.getElementById('effectiveness');
+effectivenessRange.addEventListener("change", changeSimParams());
+
 var restartbtn = document.getElementById('restartbtn');
 restartbtn.addEventListener("click", changeSimParams());
 
@@ -25,6 +31,8 @@ function changeSimParams(resetToDefault) {
       $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
       $('#ipactval').html(document.getElementById('infectionprobability').value);
       $('#spactval').html(document.getElementById('speed').value);
+      $('#vcactval').html(document.getElementById('vaccination').value);
+      $('#effecactval').html(document.getElementById('effectiveness').value);
     }
     return () => {
       const defaultValues = sirsim.getDefaultValues();
@@ -32,6 +40,8 @@ function changeSimParams(resetToDefault) {
       recoverytimeinmillis.value = defaultValues.recoveryTimeInMillis;
       infectionprobability.value = defaultValues.infectionProbability;
       speedRange.value = defaultValues.speed;
+      vaccinationRange.value = defaultValues.vaccination;
+      effectivenessRange.value = defaultValues.effectiveness;
       sirsim.reset();
       updateRangeValues();
     }
@@ -47,6 +57,9 @@ function changeSimParams(resetToDefault) {
       let rectime = parseInt(recoverytimeinmillis.value);
       let iprob = parseFloat(infectionprobability.value);
       let speed = parseFloat(speedRange.value);
+      let vaccination = parseFloat(vaccinationRange.value) / 100.0;
+      let effectiveness = parseFloat(effectivenessRange.value) / 100.0;
+
       if (psize >= 10 && psize <= 500) {
         arg.popsize = psize;
       }
@@ -59,6 +72,13 @@ function changeSimParams(resetToDefault) {
       if (speed) {
         arg.speed = speed;
       }
+      if (typeof vaccination !== "undefined") {
+        arg.vaccination = vaccination;
+      }
+      if (typeof effectiveness !== "undefined") {
+        arg.effectiveness = effectiveness;
+      }
+
       if (prev_psize !== psize || prev_iprob !== iprob ||
         prev_rectime !== rectime || prev_speed !== speed) {
         sirsim.reset(arg);
@@ -77,11 +97,17 @@ $(function () {
   $("#rtmax").html(document.getElementById('recoverytimeinmillis').getAttribute('max'));
   $("#spmin").html(document.getElementById('speed').getAttribute('min'));
   $("#spmax").html(document.getElementById('speed').getAttribute('max'));
+  $("#vcmin").html(document.getElementById('vaccination').getAttribute('min'));
+  $("#vcmax").html(document.getElementById('vaccination').getAttribute('max'));
+  $("#effecmin").html(document.getElementById('effectiveness').getAttribute('min'));
+  $("#effecmax").html(document.getElementById('effectiveness').getAttribute('max'));
 
   $('#psactval').html(document.getElementById('popsize').value);
   $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
   $('#ipactval').html(document.getElementById('infectionprobability').value);
   $('#spactval').html(document.getElementById('speed').value);
+  $('#vcactval').html(document.getElementById('vaccination').value);
+  $('#effecactval').html(document.getElementById('effectiveness').value);
 
   popsize.addEventListener('change', (() => {
     $('#psactval').html(document.getElementById('popsize').value);
@@ -94,6 +120,12 @@ $(function () {
   }));
   speedRange.addEventListener('change', (() => {
     $('#spactval').html(document.getElementById('speed').value);
+  }));
+  vaccinationRange.addEventListener('change', (() => {
+    $('#vcactval').html(document.getElementById('vaccination').value);
+  }));
+  effectivenessRange.addEventListener('change', (() => {
+    $('#effecactval').html(document.getElementById('effectiveness').value);
   }));
 });
 

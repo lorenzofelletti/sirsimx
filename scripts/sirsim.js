@@ -1,3 +1,24 @@
+// Use system random provider instead of slow browser random
+const randomDataArraySize = 256
+const divisor = parseFloat((2 ** 16 - 1))
+const randomData = new Uint16Array(randomDataArraySize)
+let arrayIndex = randomDataArraySize
+
+const fastRandom = window.crypto ? () => {
+  let nextArrayIndex = arrayIndex
+
+  if (nextArrayIndex === randomDataArraySize) {
+    crypto.getRandomValues(randomData)
+    nextArrayIndex = 0
+  } else {
+    nextArrayIndex = nextArrayIndex + 1
+  }
+
+  return randomData[nextArrayIndex] / divisor
+} : Math.random
+
+
+
 let sketch = (p) => {
   //====== DRAWING PARAMS ======//
   let frameRate = 30; // frame rate
@@ -8,12 +29,13 @@ let sketch = (p) => {
   let simCanvasSize = (screen.availWidth > 672) ?
     { width: 640, height: 480 } : { width: mobWidth, height: mobHeight };
   /**
-   * Correlates the {@link status} with the relative rgb color.  
+   * Correlates the {@link status} with the relative rgb color.
    */
   const statusColor = {
     1: '#ffff00',
     2: '#ff0000',
     3: '#00ff00',
+    4: '#8888ff',
   }
 
   //====== SIMULATION INTERNAL VARIABLES ======//
@@ -28,18 +50,23 @@ let sketch = (p) => {
 
   //====== SIMULATION SETTABLE PARAMETERS ======//
   let numBalls; /** number of simulated balls (equal to the setted population size)  */
+  let numVaccinated; /** number of simulated balls that are vaccinated  */
   /** time for a ball to stay in infectious status before switching to recovered */
   let recoveryTimeInMillis;
   /** probability of infecting others when colliding with them */
   let infectionProbability;
   let speed; /** ball's speed */
+  let vaccinationRate; /* Chance that vaccine will prevent a spread */
+  let vaccinationEffectiveness; /* Chance that vaccine will prevent a spread */
+
   /**
    * Enumerates the three SIR possible status.
    */
   const status = {
     SUSCEPTIBLE: 1,
     INFECTIOUS: 2,
-    RECOVERED: 3
+    RECOVERED: 3,
+    VACCINATED: 4,
   };
 
   /**
@@ -47,17 +74,25 @@ let sketch = (p) => {
    * @property {number} defaultValues.popsize   - the population size (integer)
    * @property {number} defaultValues.recoveryTimeInMillis   - recovery time in ms, (integer)
    * @property {number} defaultValues.infectionProbability   - the probability of infect someone [0,1]
+   * @property {number} defaultValues.speed   - how fast the doods move [1,5]
+   * @property {number} defaultValues.vaccination   - percentage of doods vaccinated [0,100]
    */
   const defaultValues = {
     popsize: 300,
     recoveryTimeInMillis: 2000,
     infectionProbability: 1,
-    speed: 2
+    speed: 2,
+    vaccination: 0.3,
+    effectiveness: 0.9,
   };
 
   //====== VARIABLE ACCESS METHODS ======//
   p.getNumberOfBalls = () => {
     return numBalls;
+  }
+
+  p.getNumberVaccinated = () => {
+    return numVaccinated;
   }
 
   p.getDefaultValues = () => {
@@ -76,6 +111,12 @@ let sketch = (p) => {
     return statuses;
   }
 
+  p.eachBall = (callback) => {
+    for (let i = 0; i < balls.length; i++) {
+      callback(ball, i)
+    }
+  }
+
   //====== STATUS MANAGEMENT METHODS ======//
   /**
   * Check if a ball's infectious time is over and, if so, changes its status
@@ -86,6 +127,7 @@ let sketch = (p) => {
       if (ball.time !== undefined &&
         (Date.now() - ball.time > recoveryTimeInMillis)) {
         ball.time = undefined;
+        balls[ball.index].lastStatus = balls[ball.index].status;
         balls[ball.index].status = status.RECOVERED;
       }
     });
@@ -101,7 +143,7 @@ let sketch = (p) => {
 
   /**
    * Resets the sketch and restart it with new parameters.
-   * @param {Object} args  - object containing the simulation's new parameters 
+   * @param {Object} args  - object containing the simulation's new parameters
    */
   p.reset = function (args) {
     /* Changes the play status when the canvas is clicked
@@ -138,22 +180,25 @@ let sketch = (p) => {
     ballsInfectionTime = [];
 
     // if there are input params, set them
-    numBalls = (args && args.popsize) ? args.popsize : defaultValues.popsize;
-    recoveryTimeInMillis =
-      (args && args.recoveryTimeInMillis) ? args.recoveryTimeInMillis : defaultValues.recoveryTimeInMillis;
-    infectionProbability =
-      (args && args.infectionProbability) ? args.infectionProbability : defaultValues.infectionProbability;
-    speed = (args && args.speed) ? args.speed : defaultValues.speed;
+    numBalls =args?.popsize ?? defaultValues.popsize;
+    recoveryTimeInMillis = args?.recoveryTimeInMillis ?? defaultValues.recoveryTimeInMillis;
+    infectionProbability = args?.infectionProbability ?? defaultValues.infectionProbability;
+    speed = args?.speed ?? defaultValues.speed;
+    vaccinationRate = args?.vaccination ?? defaultValues.vaccination;
+    vaccinationEffectiveness = args?.effectiveness ?? defaultValues.effectiveness;
 
     // create the balls
     for (let i = 0; i < numBalls; i++) {
+      const isVaccinated = fastRandom() < vaccinationRate
+      numVaccinated += isVaccinated ? 1 : 0
+
       balls[i] = new Ball(
         p.random(p.width),
         p.random(p.height),
         diameter,
         i,
         balls,
-        status.SUSCEPTIBLE
+        isVaccinated ? status.VACCINATED : status.SUSCEPTIBLE
       );
     }
 
@@ -193,6 +238,7 @@ let sketch = (p) => {
       this.id = idin;
       this.others = oin;
       this.status = status;
+      this.lastStatus = null;
     }
 
     /**
@@ -224,13 +270,21 @@ let sketch = (p) => {
 
     /**
      * Check if @this Ball status has to change following a collision with
-     * another ball (which index is passed as a parameter) 
-     * @param {number} otherBallIndex 
+     * another ball (which index is passed as a parameter)
+     * @param {number} otherBallIndex
      */
     checkForStatusChange(otherBallIndex) {
-      if (this.status === status.SUSCEPTIBLE
+      const nonVaccinatedInfection = this.status === status.SUSCEPTIBLE
         && this.others[otherBallIndex].status === status.INFECTIOUS
-        && (Math.random() <= infectionProbability)) {
+        && (fastRandom() <= infectionProbability)
+
+      const vaccinatedInfection = this.status === status.VACCINATED
+        && this.others[otherBallIndex].status === status.INFECTIOUS
+        && (fastRandom() <= infectionProbability)
+        && (fastRandom() > vaccinationEffectiveness)
+
+      if (nonVaccinatedInfection || vaccinatedInfection) {
+        this.lastStatus = this.status
         this.status = status.INFECTIOUS;
         ballsInfectionTime.push({ time: Date.now(), index: this.id });
       }
