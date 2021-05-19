@@ -61,8 +61,8 @@ let sketch = (p) => {
     recoveryTimeInMillis: 2000,
     infectionProbability: 1,
     speed: 2,
-    vaccination: 10,
-    effectiveness: 10,
+    vaccination: 0.3,
+    effectiveness: 0.9,
   };
 
   //====== VARIABLE ACCESS METHODS ======//
@@ -165,7 +165,6 @@ let sketch = (p) => {
     speed = args?.speed ?? defaultValues.speed;
     vaccinationRate = args?.vaccination ?? defaultValues.vaccination;
     vaccinationEffectiveness = args?.effectiveness ?? defaultValues.effectiveness;
-    console.log({ vaccinationEffectiveness })
 
     // create the balls
     for (let i = 0; i < numBalls; i++) {

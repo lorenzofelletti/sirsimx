@@ -73,6 +73,7 @@ let graphSketch = (p) => {
           case status.VACCINATED:
             ++numberOfBallsInStatus.VACCINATED;
             --numberOfBallsInStatus.SUSCEPTIBLE; // PREV:
+            break;
           case status.INFECTIOUS:
             ++numberOfBallsInStatus.INFECTIOUS;
             --numberOfBallsInStatus.SUSCEPTIBLE; // PREV:
