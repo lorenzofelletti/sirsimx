@@ -1,42 +1,44 @@
 // Use system random provider instead of slow browser random
-const randomDataArraySize = 256
-const divisor = parseFloat((2 ** 16 - 1))
-const randomData = new Uint16Array(randomDataArraySize)
-let arrayIndex = randomDataArraySize
+const randomDataArraySize = 256;
+const divisor = parseFloat(2 ** 16 - 1);
+const randomData = new Uint16Array(randomDataArraySize);
+let arrayIndex = randomDataArraySize;
 
-const fastRandom = window.crypto ? () => {
-  let nextArrayIndex = arrayIndex
+const fastRandom = window.crypto
+  ? () => {
+      let nextArrayIndex = arrayIndex;
 
-  if (nextArrayIndex === randomDataArraySize) {
-    crypto.getRandomValues(randomData)
-    nextArrayIndex = 0
-  } else {
-    nextArrayIndex = nextArrayIndex + 1
-  }
+      if (nextArrayIndex === randomDataArraySize) {
+        crypto.getRandomValues(randomData);
+        nextArrayIndex = 0;
+      } else {
+        nextArrayIndex = nextArrayIndex + 1;
+      }
 
-  return randomData[nextArrayIndex] / divisor
-} : Math.random
-
-
+      return randomData[nextArrayIndex] / divisor;
+    }
+  : Math.random;
 
 let sketch = (p) => {
   //====== DRAWING PARAMS ======//
   let frameRate = 30; // frame rate
   let canvas; // the canvas
   // canvas size parameters
-  let mobWidth = (screen.availWidth - (8 * 2 * 2));
+  let mobWidth = screen.availWidth - 8 * 2 * 2;
   let mobHeight = Math.floor(mobWidth * (3 / 4));
-  let simCanvasSize = (screen.availWidth > 672) ?
-    { width: 640, height: 480 } : { width: mobWidth, height: mobHeight };
+  let simCanvasSize =
+    screen.availWidth > 672
+      ? { width: 640, height: 480 }
+      : { width: mobWidth, height: mobHeight };
   /**
    * Correlates the {@link status} with the relative rgb color.
    */
   const statusColor = {
-    1: '#ffff00',
-    2: '#ff0000',
-    3: '#00ff00',
-    4: '#8888ff',
-  }
+    1: "#ffff00",
+    2: "#ff0000",
+    3: "#00ff00",
+    4: "#8888ff",
+  };
 
   //====== SIMULATION INTERNAL VARIABLES ======//
   let balls; // array storing the balls
@@ -89,19 +91,19 @@ let sketch = (p) => {
   //====== VARIABLE ACCESS METHODS ======//
   p.getNumberOfBalls = () => {
     return numBalls;
-  }
+  };
 
   p.getNumberVaccinated = () => {
     return numVaccinated;
-  }
+  };
 
   p.getDefaultValues = () => {
     return defaultValues;
-  }
+  };
 
   p.getStatus = () => {
     return status;
-  }
+  };
 
   p.getStatusArray = () => {
     let statuses = [];
@@ -109,37 +111,39 @@ let sketch = (p) => {
       statuses[i] = balls[i].status;
     }
     return statuses;
-  }
+  };
 
   p.eachBall = (callback) => {
     for (let i = 0; i < balls.length; i++) {
-      callback(ball, i)
+      callback(ball, i);
     }
-  }
+  };
 
   //====== STATUS MANAGEMENT METHODS ======//
   /**
-  * Check if a ball's infectious time is over and, if so, changes its status
-  * to recovered. Implement the infection logic.
-  */
+   * Check if a ball's infectious time is over and, if so, changes its status
+   * to recovered. Implement the infection logic.
+   */
   p.checkForRecovered = () => {
-    ballsInfectionTime.forEach(ball => {
-      if (ball.time !== undefined &&
-        (Date.now() - ball.time > recoveryTimeInMillis)) {
+    ballsInfectionTime.forEach((ball) => {
+      if (
+        ball.time !== undefined &&
+        Date.now() - ball.time > recoveryTimeInMillis
+      ) {
         ball.time = undefined;
         balls[ball.index].lastStatus = balls[ball.index].status;
         balls[ball.index].status = status.RECOVERED;
       }
     });
-  }
+  };
 
   //====== SKETCH METHODS ======//
   p.setup = function () {
     canvas = p.createCanvas(simCanvasSize.width, simCanvasSize.height);
-    canvas.parent('sirsim-container');
+    canvas.parent("sirsim-container");
     p.frameRate(frameRate);
     this.reset();
-  }
+  };
 
   /**
    * Resets the sketch and restart it with new parameters.
@@ -148,30 +152,32 @@ let sketch = (p) => {
   p.reset = function (args) {
     /* Changes the play status when the canvas is clicked
      * and also send an event to stop the graph. */
-    canvas.mouseClicked(function () {
-      let playing = true;
-      let stopTime;
-      return () => {
-        if (playing) {
-          playing = false;
-          stopTime = Date.now();
-          p.noLoop();
-          // stop plotting the graph
-          graph && graph._setupDone && graph.noLoop();
-        } else {
-          playing = true;
-          let delta = Date.now() - stopTime;
-          ballsInfectionTime.forEach(ball => {
-            if (ball.time) {
-              ball.time += delta;
-            }
-          })
-          p.loop();
-          // resume graph plotting
-          graph && graph._setupDone && graph.loop();
-        }
-      }
-    }());
+    canvas.mouseClicked(
+      (function () {
+        let playing = true;
+        let stopTime;
+        return () => {
+          if (playing) {
+            playing = false;
+            stopTime = Date.now();
+            p.noLoop();
+            // stop plotting the graph
+            graph && graph._setupDone && graph.noLoop();
+          } else {
+            playing = true;
+            let delta = Date.now() - stopTime;
+            ballsInfectionTime.forEach((ball) => {
+              if (ball.time) {
+                ball.time += delta;
+              }
+            });
+            p.loop();
+            // resume graph plotting
+            graph && graph._setupDone && graph.loop();
+          }
+        };
+      })()
+    );
 
     // reset the sketch's variables and play status
     playing = true;
@@ -180,17 +186,20 @@ let sketch = (p) => {
     ballsInfectionTime = [];
 
     // if there are input params, set them
-    numBalls =args?.popsize ?? defaultValues.popsize;
-    recoveryTimeInMillis = args?.recoveryTimeInMillis ?? defaultValues.recoveryTimeInMillis;
-    infectionProbability = args?.infectionProbability ?? defaultValues.infectionProbability;
+    numBalls = args?.popsize ?? defaultValues.popsize;
+    recoveryTimeInMillis =
+      args?.recoveryTimeInMillis ?? defaultValues.recoveryTimeInMillis;
+    infectionProbability =
+      args?.infectionProbability ?? defaultValues.infectionProbability;
     speed = args?.speed ?? defaultValues.speed;
     vaccinationRate = args?.vaccination ?? defaultValues.vaccination;
-    vaccinationEffectiveness = args?.effectiveness ?? defaultValues.effectiveness;
+    vaccinationEffectiveness =
+      args?.effectiveness ?? defaultValues.effectiveness;
 
     // create the balls
     for (let i = 0; i < numBalls; i++) {
-      const isVaccinated = fastRandom() < vaccinationRate
-      numVaccinated += isVaccinated ? 1 : 0
+      const isVaccinated = fastRandom() < vaccinationRate;
+      numVaccinated += isVaccinated ? 1 : 0;
 
       balls[i] = new Ball(
         p.random(p.width),
@@ -208,12 +217,12 @@ let sketch = (p) => {
 
     // reset the graph
     graph && graph._setupDone && graph.reset();
-  }
+  };
 
   p.draw = function () {
     p.background(0, 87, 255); //0057ff
     p.checkForRecovered();
-    balls.forEach(ball => {
+    balls.forEach((ball) => {
       p.push();
       p.noStroke();
       p.fill(statusColor[ball.status]);
@@ -222,7 +231,7 @@ let sketch = (p) => {
       ball.display();
       p.pop();
     });
-  }
+  };
 
   //====== BALL IMPLEMENTATION ======//
   /**
@@ -274,17 +283,19 @@ let sketch = (p) => {
      * @param {number} otherBallIndex
      */
     checkForStatusChange(otherBallIndex) {
-      const nonVaccinatedInfection = this.status === status.SUSCEPTIBLE
-        && this.others[otherBallIndex].status === status.INFECTIOUS
-        && (fastRandom() <= infectionProbability)
+      const nonVaccinatedInfection =
+        this.status === status.SUSCEPTIBLE &&
+        this.others[otherBallIndex].status === status.INFECTIOUS &&
+        fastRandom() <= infectionProbability;
 
-      const vaccinatedInfection = this.status === status.VACCINATED
-        && this.others[otherBallIndex].status === status.INFECTIOUS
-        && (fastRandom() <= infectionProbability)
-        && (fastRandom() > vaccinationEffectiveness)
+      const vaccinatedInfection =
+        this.status === status.VACCINATED &&
+        this.others[otherBallIndex].status === status.INFECTIOUS &&
+        fastRandom() <= infectionProbability &&
+        fastRandom() > vaccinationEffectiveness;
 
       if (nonVaccinatedInfection || vaccinatedInfection) {
-        this.lastStatus = this.status
+        this.lastStatus = this.status;
         this.status = status.INFECTIOUS;
         ballsInfectionTime.push({ time: Date.now(), index: this.id });
       }
@@ -313,4 +324,4 @@ let sketch = (p) => {
       p.circle(this.x, this.y, diameter);
     }
   } // Ball
-} // sketch
+}; // sketch
