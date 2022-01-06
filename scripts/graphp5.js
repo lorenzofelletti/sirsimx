@@ -6,35 +6,42 @@ let graphSketch = (p) => {
   // canvas parameters
   let canvas; // p5js canvas
   let defaultHeight = 200;
-  let mobWidth = (screen.availWidth - (8 * 2 * 2));
-  let graphCanvasSize = (screen.availWidth > 672) ?
-    { width: 640, height: defaultHeight } : { width: mobWidth, height: defaultHeight };
+  let mobWidth = screen.availWidth - 8 * 2 * 2;
+  let graphCanvasSize =
+    screen.availWidth > 672
+      ? { width: 640, height: defaultHeight }
+      : { width: mobWidth, height: defaultHeight };
 
   let lineDrawer;
 
   //====== SKETCH METHODS ======//
   p.setup = () => {
     canvas = p.createCanvas(graphCanvasSize.width, graphCanvasSize.height);
-    canvas.id('graph-canvas');
-    canvas.parent('graph-container');
+    canvas.id("graph-canvas");
+    canvas.parent("graph-container");
     p.frameRate(frameRate);
     p.reset();
-  }
+  };
 
   /** Reset and restart the graph. */
   p.reset = () => {
     p.background(255);
     currentXCoordinatePixel = 0;
     prev_x = 0;
-    prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0, VACCINATED: sirsim.getNumberVaccinated()}; // PREV was: SUSCEPTIBLE: 0
+    prev_y = {
+      SUSCEPTIBLE: sirsim.getNumberOfBalls(),
+      INFECTIOUS: 0,
+      RECOVERED: 0,
+      VACCINATED: sirsim.getNumberVaccinated(),
+    }; // PREV was: SUSCEPTIBLE: 0
     lineDrawer = createLineDrawer(sirsim.getNumberOfBalls());
     p.strokeWeight(4);
     p.loop();
-  }
+  };
 
   p.draw = () => {
     lineDrawer.draw();
-  }
+  };
 
   /**
    * LineDrawer factory.
@@ -49,9 +56,15 @@ let graphSketch = (p) => {
       SUSCEPTIBLE: { r: 255, g: 255, b: 0 },
       INFECTIOUS: { r: 255, g: 0, b: 0 },
       RECOVERED: { r: 0, g: 255, b: 0 },
-      VACCINATED: { r: 128, g: 128, b: 255 }
+      VACCINATED: { r: 128, g: 128, b: 255 },
     };
-    let prev_x = 0, prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls() - sirsim.getNumberVaccinated(), INFECTIOUS: 0, RECOVERED: 0, VACCINATED: sirsim.getNumberVaccinated() }; // PREV was: SUSCEPTIBLE: 0
+    let prev_x = 0,
+      prev_y = {
+        SUSCEPTIBLE: sirsim.getNumberOfBalls() - sirsim.getNumberVaccinated(),
+        INFECTIOUS: 0,
+        RECOVERED: 0,
+        VACCINATED: sirsim.getNumberVaccinated(),
+      }; // PREV was: SUSCEPTIBLE: 0
 
     let totalBalls = numberOfBalls;
     let height = graphCanvasSize.height;
@@ -65,10 +78,14 @@ let graphSketch = (p) => {
      * each possible status. */
     lineDrawer.drawLines = (statusArray) => {
       // reset numberOfBallsInStatus
-      numberOfBallsInStatus =
-        { SUSCEPTIBLE: numberOfBalls, INFECTIOUS: 0, RECOVERED: 0, VACCINATED: 0 }; // PREV was: SUSCEPTIBLE: 0
+      numberOfBallsInStatus = {
+        SUSCEPTIBLE: numberOfBalls,
+        INFECTIOUS: 0,
+        RECOVERED: 0,
+        VACCINATED: 0,
+      }; // PREV was: SUSCEPTIBLE: 0
       // calculate the new numberOfBallsInStatus
-      statusArray.forEach(element => {
+      statusArray.forEach((element) => {
         switch (element) {
           case status.VACCINATED:
             ++numberOfBallsInStatus.VACCINATED;
@@ -89,13 +106,19 @@ let graphSketch = (p) => {
 
       // draws a line for each status
       for (let consideredStatus in status) {
-        p.stroke(statusColorRGB[consideredStatus].r,
+        p.stroke(
+          statusColorRGB[consideredStatus].r,
           statusColorRGB[consideredStatus].g,
-          statusColorRGB[consideredStatus].b);
+          statusColorRGB[consideredStatus].b
+        );
         // draws line
         let y = numberOfBallsInStatus[consideredStatus];
-        p.line(prev_x, Math.floor(height - ratio * prev_y[consideredStatus]),
-          currentXCoordinatePixel, Math.floor(height - ratio * y));
+        p.line(
+          prev_x,
+          Math.floor(height - ratio * prev_y[consideredStatus]),
+          currentXCoordinatePixel,
+          Math.floor(height - ratio * y)
+        );
         // updates the previous y value
         prev_y[consideredStatus] = y;
       }
@@ -107,19 +130,18 @@ let graphSketch = (p) => {
       if (numberOfBallsInStatus.INFECTIOUS === 0) {
         p.noLoop();
       }
-    }
+    };
 
     /** Implement p.draw() behavior  */
     lineDrawer.draw = () => {
       currentXCoordinatePixel += pace;
       if (currentXCoordinatePixel == graphCanvasSize.width) {
         p.noLoop();
-      }
-      else {
+      } else {
         lineDrawer.drawLines(sirsim.getStatusArray());
       }
-    }
+    };
 
     return lineDrawer;
   }
-}
+};

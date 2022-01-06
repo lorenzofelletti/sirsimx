@@ -1,25 +1,25 @@
-var popsize = document.getElementById('popsize');
+var popsize = document.getElementById("popsize");
 popsize.addEventListener("change", changeSimParams());
 
-var recoverytimeinmillis = document.getElementById('recoverytimeinmillis');
+var recoverytimeinmillis = document.getElementById("recoverytimeinmillis");
 recoverytimeinmillis.addEventListener("change", changeSimParams());
 
-var infectionprobability = document.getElementById('infectionprobability');
+var infectionprobability = document.getElementById("infectionprobability");
 infectionprobability.addEventListener("change", changeSimParams());
 
-var speedRange = document.getElementById('speed');
+var speedRange = document.getElementById("speed");
 speedRange.addEventListener("change", changeSimParams());
 
-var vaccinationRange = document.getElementById('vaccination');
+var vaccinationRange = document.getElementById("vaccination");
 vaccinationRange.addEventListener("change", changeSimParams());
 
-var effectivenessRange = document.getElementById('effectiveness');
+var effectivenessRange = document.getElementById("effectiveness");
 effectivenessRange.addEventListener("change", changeSimParams());
 
-var restartbtn = document.getElementById('restartbtn');
+var restartbtn = document.getElementById("restartbtn");
 restartbtn.addEventListener("click", changeSimParams());
 
-var resetbtn = document.getElementById('resetbtn');
+var resetbtn = document.getElementById("resetbtn");
 resetbtn.addEventListener("click", changeSimParams(true));
 
 /** Resets the simulation with new parameters. If arguments
@@ -27,12 +27,16 @@ resetbtn.addEventListener("click", changeSimParams(true));
 function changeSimParams(resetToDefault) {
   if (resetToDefault) {
     function updateRangeValues() {
-      $('#psactval').html(document.getElementById('popsize').value);
-      $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
-      $('#ipactval').html(document.getElementById('infectionprobability').value);
-      $('#spactval').html(document.getElementById('speed').value);
-      $('#vcactval').html(document.getElementById('vaccination').value);
-      $('#effecactval').html(document.getElementById('effectiveness').value);
+      $("#psactval").html(document.getElementById("popsize").value);
+      $("#rtactval").html(
+        document.getElementById("recoverytimeinmillis").value
+      );
+      $("#ipactval").html(
+        document.getElementById("infectionprobability").value
+      );
+      $("#spactval").html(document.getElementById("speed").value);
+      $("#vcactval").html(document.getElementById("vaccination").value);
+      $("#effecactval").html(document.getElementById("effectiveness").value);
     }
     return () => {
       const defaultValues = sirsim.getDefaultValues();
@@ -44,7 +48,7 @@ function changeSimParams(resetToDefault) {
       effectivenessRange.value = defaultValues.effectiveness;
       sirsim.reset();
       updateRangeValues();
-    }
+    };
   }
 
   let prev_psize, prev_rectime, prev_iprob, prev_speed;
@@ -79,55 +83,71 @@ function changeSimParams(resetToDefault) {
         arg.effectiveness = effectiveness;
       }
 
-      if (prev_psize !== psize || prev_iprob !== iprob ||
-        prev_rectime !== rectime || prev_speed !== speed) {
+      if (
+        prev_psize !== psize ||
+        prev_iprob !== iprob ||
+        prev_rectime !== rectime ||
+        prev_speed !== speed
+      ) {
         sirsim.reset(arg);
       }
     }
-  }
+  };
 }
 
 // configure the form ranges labels
 $(function () {
-  $("#psmin").html(document.getElementById('popsize').getAttribute('min'));
-  $("#psmax").html(document.getElementById('popsize').getAttribute('max'));
-  $("#ipmin").html(document.getElementById('infectionprobability').getAttribute('min'));
-  $("#ipmax").html(document.getElementById('infectionprobability').getAttribute('max'));
-  $("#rtmin").html(document.getElementById('recoverytimeinmillis').getAttribute('min'));
-  $("#rtmax").html(document.getElementById('recoverytimeinmillis').getAttribute('max'));
-  $("#spmin").html(document.getElementById('speed').getAttribute('min'));
-  $("#spmax").html(document.getElementById('speed').getAttribute('max'));
-  $("#vcmin").html(document.getElementById('vaccination').getAttribute('min'));
-  $("#vcmax").html(document.getElementById('vaccination').getAttribute('max'));
-  $("#effecmin").html(document.getElementById('effectiveness').getAttribute('min'));
-  $("#effecmax").html(document.getElementById('effectiveness').getAttribute('max'));
+  $("#psmin").html(document.getElementById("popsize").getAttribute("min"));
+  $("#psmax").html(document.getElementById("popsize").getAttribute("max"));
+  $("#ipmin").html(
+    document.getElementById("infectionprobability").getAttribute("min")
+  );
+  $("#ipmax").html(
+    document.getElementById("infectionprobability").getAttribute("max")
+  );
+  $("#rtmin").html(
+    document.getElementById("recoverytimeinmillis").getAttribute("min")
+  );
+  $("#rtmax").html(
+    document.getElementById("recoverytimeinmillis").getAttribute("max")
+  );
+  $("#spmin").html(document.getElementById("speed").getAttribute("min"));
+  $("#spmax").html(document.getElementById("speed").getAttribute("max"));
+  $("#vcmin").html(document.getElementById("vaccination").getAttribute("min"));
+  $("#vcmax").html(document.getElementById("vaccination").getAttribute("max"));
+  $("#effecmin").html(
+    document.getElementById("effectiveness").getAttribute("min")
+  );
+  $("#effecmax").html(
+    document.getElementById("effectiveness").getAttribute("max")
+  );
 
-  $('#psactval').html(document.getElementById('popsize').value);
-  $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
-  $('#ipactval').html(document.getElementById('infectionprobability').value);
-  $('#spactval').html(document.getElementById('speed').value);
-  $('#vcactval').html(document.getElementById('vaccination').value);
-  $('#effecactval').html(document.getElementById('effectiveness').value);
+  $("#psactval").html(document.getElementById("popsize").value);
+  $("#rtactval").html(document.getElementById("recoverytimeinmillis").value);
+  $("#ipactval").html(document.getElementById("infectionprobability").value);
+  $("#spactval").html(document.getElementById("speed").value);
+  $("#vcactval").html(document.getElementById("vaccination").value);
+  $("#effecactval").html(document.getElementById("effectiveness").value);
 
-  popsize.addEventListener('change', (() => {
-    $('#psactval').html(document.getElementById('popsize').value);
-  }));
-  recoverytimeinmillis.addEventListener('change', (() => {
-    $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
-  }));
-  infectionprobability.addEventListener('change', (() => {
-    $('#ipactval').html(document.getElementById('infectionprobability').value);
-  }));
-  speedRange.addEventListener('change', (() => {
-    $('#spactval').html(document.getElementById('speed').value);
-  }));
-  vaccinationRange.addEventListener('change', (() => {
-    $('#vcactval').html(document.getElementById('vaccination').value);
-  }));
-  effectivenessRange.addEventListener('change', (() => {
-    $('#effecactval').html(document.getElementById('effectiveness').value);
-  }));
+  popsize.addEventListener("change", () => {
+    $("#psactval").html(document.getElementById("popsize").value);
+  });
+  recoverytimeinmillis.addEventListener("change", () => {
+    $("#rtactval").html(document.getElementById("recoverytimeinmillis").value);
+  });
+  infectionprobability.addEventListener("change", () => {
+    $("#ipactval").html(document.getElementById("infectionprobability").value);
+  });
+  speedRange.addEventListener("change", () => {
+    $("#spactval").html(document.getElementById("speed").value);
+  });
+  vaccinationRange.addEventListener("change", () => {
+    $("#vcactval").html(document.getElementById("vaccination").value);
+  });
+  effectivenessRange.addEventListener("change", () => {
+    $("#effecactval").html(document.getElementById("effectiveness").value);
+  });
 });
 
 // disables form submission, to prevent unwanted page updates
-$('form').submit(false);
+$("form").submit(false);
