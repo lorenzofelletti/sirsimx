@@ -7,5 +7,10 @@ A box simulates the space where the individuals - represesented by the balls - o
 * Infectious (I) - individuals that has the disease and can spread it to others
 * Recovered (R) - ex-infectious that no longer have the disease, can't spread it and are now immune to it.
 
+## Vaccination
+In addition to the SIR model, vaccination was model too (thanks to [TikiTDO](https://github.com/TikiTDO)) based on two parameters:
+* the percentage of the population that is vaccinated
+* the effectiveness (in percentage) of the vaccine.
+
 ## Final Result
 The final result can be found at https://lorenzofelletti.github.io/sirsimx/.
