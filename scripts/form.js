@@ -51,7 +51,6 @@ function changeSimParams(resetToDefault) {
     };
   }
 
-  let prev_psize, prev_rectime, prev_iprob, prev_speed;
   return function () {
     if (resetToDefault) {
       sirsim.reset();
@@ -61,8 +60,8 @@ function changeSimParams(resetToDefault) {
       let rectime = parseInt(recoverytimeinmillis.value);
       let iprob = parseFloat(infectionprobability.value);
       let speed = parseFloat(speedRange.value);
-      let vaccination = parseFloat(vaccinationRange.value) / 100.0;
-      let effectiveness = parseFloat(effectivenessRange.value) / 100.0;
+      let vaccination = parseFloat(vaccinationRange.value);
+      let effectiveness = parseFloat(effectivenessRange.value);
 
       if (psize >= 10 && psize <= 500) {
         arg.popsize = psize;
@@ -76,21 +75,14 @@ function changeSimParams(resetToDefault) {
       if (speed) {
         arg.speed = speed;
       }
-      if (typeof vaccination !== "undefined") {
+      if (vaccination) {
         arg.vaccination = vaccination;
       }
-      if (typeof effectiveness !== "undefined") {
+      if (effectiveness) {
         arg.effectiveness = effectiveness;
       }
 
-      if (
-        prev_psize !== psize ||
-        prev_iprob !== iprob ||
-        prev_rectime !== rectime ||
-        prev_speed !== speed
-      ) {
-        sirsim.reset(arg);
-      }
+      sirsim.reset(arg);
     }
   };
 }

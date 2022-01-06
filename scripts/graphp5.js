@@ -106,6 +106,7 @@ let graphSketch = (p) => {
 
       // draws a line for each status
       for (let consideredStatus in status) {
+        if (consideredStatus == "VACCINATED") continue;
         p.stroke(
           statusColorRGB[consideredStatus].r,
           statusColorRGB[consideredStatus].g,

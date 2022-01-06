@@ -85,7 +85,7 @@ let sketch = (p) => {
     infectionProbability: 1,
     speed: 2,
     vaccination: 0.3,
-    effectiveness: 0.9,
+    effectiveness: 0.85,
   };
 
   //====== VARIABLE ACCESS METHODS ======//
