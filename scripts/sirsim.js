@@ -197,6 +197,7 @@ let sketch = (p) => {
       args?.effectiveness ?? defaultValues.effectiveness;
 
     // create the balls
+    numVaccinated = 0;
     for (let i = 0; i < numBalls; i++) {
       const isVaccinated = fastRandom() < vaccinationRate;
       numVaccinated += isVaccinated ? 1 : 0;
