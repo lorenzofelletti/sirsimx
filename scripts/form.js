@@ -63,26 +63,54 @@ function changeSimParams(resetToDefault) {
       let vaccination = parseFloat(vaccinationRange.value);
       let effectiveness = parseFloat(effectivenessRange.value);
 
-      if (psize >= 10 && psize <= 500) {
-        arg.popsize = psize;
-      }
-      if (rectime) {
-        arg.recoveryTimeInMillis = rectime;
-      }
-      if (iprob) {
-        arg.infectionProbability = iprob;
-      }
-      if (speed) {
-        arg.speed = speed;
-      }
-      if (vaccination) {
-        arg.vaccination = vaccination;
-      }
-      if (effectiveness) {
-        arg.effectiveness = effectiveness;
-      }
+      setSimulationParameters(
+        psize,
+        arg,
+        rectime,
+        iprob,
+        speed,
+        vaccination,
+        effectiveness
+      );
 
       sirsim.reset(arg);
+    }
+
+    function setSimulationParameters(
+      psize,
+      arg,
+      rectime,
+      iprob,
+      speed,
+      vaccination,
+      effectiveness
+    ) {
+      if (psize !== undefined && psize >= 10 && psize <= 500) {
+        arg.popsize = psize;
+      }
+      if (rectime !== undefined && rectime >= 1000 && rectime <= 5000) {
+        arg.recoveryTimeInMillis = rectime;
+      }
+      if (iprob !== undefined && iprob >= 0 && iprob <= 1) {
+        arg.infectionProbability = iprob;
+      }
+      if (speed !== undefined && speed >= 1 && speed <= 5) {
+        arg.speed = speed;
+      }
+      if (
+        vaccination !== undefined &&
+        vaccination !== null &&
+        vaccination !== NaN
+      ) {
+        arg.vaccination = vaccination;
+      }
+      if (
+        effectiveness !== undefined &&
+        effectiveness !== null &&
+        effectiveness !== NaN
+      ) {
+        arg.effectiveness = effectiveness;
+      }
     }
   };
 }
